@@ -6,340 +6,454 @@
 <title>Nithin Yuvaraj — Visual Creative</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#030810;--bg2:#060e1c;--bg3:#091525;
   --sky:#38bdf8;--sky2:#7dd3fc;--sky3:#bae6fd;
   --sky-dim:#0ea5e9;--sky-deep:#0369a1;
-  --glow:rgba(56,189,248,.15);--glow2:rgba(56,189,248,.07);
-  --border:rgba(56,189,248,.2);--border2:rgba(56,189,248,.07);
-  --white:#e8f4fd;--off:#94b8d0;--muted:#4a7a9b;
-  --card:#060e1a;
+  --glow:rgba(56,189,248,.18);--glow2:rgba(56,189,248,.07);
+  --border:rgba(56,189,248,.22);--border2:rgba(56,189,248,.07);
+  --white:#e8f4fd;--off:#94b8d0;--muted:#4a7a9b;--card:#060e1a;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;cursor:none;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--white);overflow-x:hidden;cursor:none;perspective:1200px;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--sky-dim);}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--sky-dim);}
-
-/* ── CUSTOM CURSOR ── */
-#cur{position:fixed;z-index:9999;pointer-events:none;width:12px;height:12px;background:var(--sky);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,opacity .3s;mix-blend-mode:screen;}
-#cur-ring{position:fixed;z-index:9998;pointer-events:none;width:40px;height:40px;border:1px solid rgba(56,189,248,.5);border-radius:50%;transform:translate(-50%,-50%);transition:left .15s ease,top .15s ease,width .3s,height .3s;}
-body.hovered #cur{width:6px;height:6px;}
-body.hovered #cur-ring{width:60px;height:60px;border-color:rgba(56,189,248,.3);}
+/* ── CURSOR ── */
+#cur{position:fixed;z-index:9999;pointer-events:none;width:10px;height:10px;background:var(--sky);border-radius:50%;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:transform .15s,width .3s,height .3s;}
+#cur-ring{position:fixed;z-index:9998;pointer-events:none;width:38px;height:38px;border:1.5px solid rgba(56,189,248,.5);border-radius:50%;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease;}
+body.hov #cur{width:4px;height:4px;}
+body.hov #cur-ring{width:64px;height:64px;border-color:rgba(56,189,248,.25);animation:ring-spin 1.2s linear infinite;}
+@keyframes ring-spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
 
 /* ── PRELOADER ── */
-#preloader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .8s,visibility .8s;}
-#preloader.done{opacity:0;visibility:hidden;}
-.pre-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);letter-spacing:.1em;color:transparent;-webkit-text-stroke:1px var(--sky);animation:pre-reveal 1.2s ease forwards;}
-@keyframes pre-reveal{from{opacity:0;letter-spacing:.4em;}to{opacity:1;letter-spacing:.1em;}}
-.pre-bar{width:200px;height:2px;background:var(--border2);overflow:hidden;}
-.pre-fill{height:100%;background:var(--sky);width:0;transition:width .05s linear;}
+#pre{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity 1s,visibility 1s;}
+#pre.gone{opacity:0;visibility:hidden;}
+.pre-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,8rem);letter-spacing:.12em;color:transparent;-webkit-text-stroke:1px var(--sky);animation:pre-in 1.4s ease forwards;}
+@keyframes pre-in{from{opacity:0;letter-spacing:.5em;transform:rotateX(40deg);}to{opacity:1;letter-spacing:.12em;transform:rotateX(0);}}
+.pre-bar-wrap{width:220px;height:2px;background:var(--border2);}
+.pre-bar-fill{height:100%;background:linear-gradient(90deg,var(--sky-deep),var(--sky));width:0;box-shadow:0 0 12px var(--sky);transition:width .08s;}
+
+/* ── PROGRESS BAR ── */
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--sky-deep),var(--sky),var(--sky2));z-index:9997;width:0;box-shadow:0 0 10px var(--sky);pointer-events:none;transition:width .1s;}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.5rem 4%;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:normal;transition:padding .4s;}
-nav.compact{padding:1rem 4%;background:rgba(3,8,16,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.12em;color:var(--white);text-decoration:none;transition:color .3s;}
-.nav-logo:hover{color:var(--sky);}
-.nav-links{display:flex;gap:2.5rem;list-style:none;}
-.nav-links a{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;position:relative;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.4rem 4%;display:flex;align-items:center;justify-content:space-between;transition:all .4s;}
+nav.compact{padding:.9rem 4%;background:rgba(3,8,16,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.12em;color:var(--white);text-decoration:none;transition:all .3s;display:inline-block;}
+.nav-logo:hover{color:var(--sky);transform:perspective(200px) rotateY(-15deg) scale(1.05);}
+.nav-links{display:flex;gap:2.2rem;list-style:none;}
+.nav-links a{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;position:relative;display:inline-block;}
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:0;height:1px;background:var(--sky);transition:width .3s;}
 .nav-links a:hover,.nav-links a.act{color:var(--sky);}
 .nav-links a:hover::after,.nav-links a.act::after{width:100%;}
-.nav-hire{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);border:1px solid var(--border);padding:.5rem 1.5rem;text-decoration:none;transition:all .3s;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%);}
-.nav-hire:hover{background:var(--sky);color:var(--bg);}
+.nav-links a:hover{transform:translateY(-2px);}
+.nav-cta{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);border:1.5px solid var(--border);padding:.5rem 1.5rem;text-decoration:none;transition:all .3s;display:inline-block;}
+.nav-cta:hover{background:var(--sky);color:var(--bg);transform:perspective(200px) rotateX(-10deg) translateY(-2px);box-shadow:0 10px 30px rgba(56,189,248,.3);}
 
-/* ── HERO ── */
-#hero{height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:0 4% 4rem;overflow:hidden;}
-.hero-canvas{position:absolute;inset:0;z-index:0;}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border2) 1px,transparent 1px),linear-gradient(90deg,var(--border2) 1px,transparent 1px);background-size:80px 80px;z-index:0;}
-.hero-radial{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 70% 40%,rgba(56,189,248,.1),transparent 70%);z-index:1;pointer-events:none;}
+/* ══════════════════════════════════════
+   HERO — full 3D scene
+══════════════════════════════════════ */
+#hero{height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:0 4% 4rem;overflow:hidden;transform-style:preserve-3d;}
+#hero-canvas{position:absolute;inset:0;z-index:0;}
+.hero-grid-layer{position:absolute;inset:0;z-index:1;
+  background-image:linear-gradient(var(--border2) 1px,transparent 1px),linear-gradient(90deg,var(--border2) 1px,transparent 1px);
+  background-size:80px 80px;transform:perspective(800px) rotateX(60deg) translateY(40%) scale(1.8);transform-origin:bottom;
+  mask-image:linear-gradient(to top,rgba(0,0,0,.6),transparent 60%);
+}
 .hero-bottom{position:relative;z-index:3;display:grid;grid-template-columns:1fr auto;align-items:flex-end;gap:3rem;}
-.hero-name-wrap{overflow:hidden;}
-.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,13vw,13rem);letter-spacing:-.01em;line-height:.85;display:flex;flex-direction:column;}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,13vw,13rem);letter-spacing:-.01em;line-height:.85;display:flex;flex-direction:column;transform-style:preserve-3d;}
 .hn-line{overflow:hidden;display:block;}
-.hn-word{display:block;transform:translateY(110%);animation:slide-up .9s cubic-bezier(.16,1,.3,1) forwards;}
-.hn-w1{animation-delay:.2s;}
-.hn-w2{animation-delay:.35s;color:transparent;-webkit-text-stroke:1.5px var(--sky);}
-@keyframes slide-up{to{transform:translateY(0);}}
-.hero-right-panel{display:flex;flex-direction:column;align-items:flex-end;gap:2rem;padding-bottom:.5rem;}
-.hero-role-stack{text-align:right;}
-.hero-eyebrow{font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sky);margin-bottom:.5rem;opacity:0;animation:fade-in .6s .8s forwards;}
+.hn-word{display:block;transform:translateY(110%);animation:slide3d .9s cubic-bezier(.16,1,.3,1) forwards;}
+.hn-w1{animation-delay:.3s;}
+.hn-w2{animation-delay:.5s;color:transparent;-webkit-text-stroke:2px var(--sky);
+  text-shadow:0 0 40px rgba(56,189,248,.4),0 0 80px rgba(56,189,248,.2);
+  animation:slide3d .9s .5s cubic-bezier(.16,1,.3,1) forwards,sky-pulse 4s 1.5s ease-in-out infinite;}
+@keyframes slide3d{from{transform:translateY(110%) rotateX(-40deg);}to{transform:translateY(0) rotateX(0);}}
+@keyframes sky-pulse{0%,100%{text-shadow:0 0 30px rgba(56,189,248,.4);}50%{text-shadow:0 0 80px rgba(56,189,248,.8),0 0 120px rgba(56,189,248,.3);}}
+.hero-right-panel{display:flex;flex-direction:column;align-items:flex-end;gap:1.8rem;padding-bottom:.5rem;}
+.hero-eyebrow{font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sky);opacity:0;animation:fade-in .6s .8s forwards;}
 .hero-roles{display:flex;flex-direction:column;gap:.15rem;text-align:right;}
-.hero-role-item{font-family:'Syne',sans-serif;font-size:clamp(.95rem,2vw,1.4rem);font-weight:700;color:var(--off);opacity:0;animation:fade-right .6s cubic-bezier(.16,1,.3,1) forwards;}
-.hr-r1{animation-delay:.6s;}.hr-r2{animation-delay:.75s;}.hr-r3{animation-delay:.9s;}
+.hero-role-item{font-family:'Syne',sans-serif;font-size:clamp(.9rem,2vw,1.3rem);font-weight:700;color:var(--off);opacity:0;}
 .hero-role-item span{color:var(--sky);}
-@keyframes fade-right{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+.hr1{animation:fade-r .6s .7s cubic-bezier(.16,1,.3,1) forwards;}
+.hr2{animation:fade-r .6s .85s cubic-bezier(.16,1,.3,1) forwards;}
+.hr3{animation:fade-r .6s 1s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes fade-r{from{opacity:0;transform:translateX(30px) rotateY(-20deg);}to{opacity:1;transform:translateX(0) rotateY(0);}}
 @keyframes fade-in{from{opacity:0;}to{opacity:1;}}
-.hero-cta-row{display:flex;align-items:center;gap:1.5rem;opacity:0;animation:fade-in .6s 1.1s forwards;}
-.btn-main{background:var(--sky);color:var(--bg);padding:.85rem 2.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);display:inline-block;transition:opacity .2s,transform .25s;}
-.btn-main:hover{opacity:.85;transform:translateY(-3px);}
-.btn-alt{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .25s;}
-.btn-alt::after{content:'→';transition:transform .25s;}
-.btn-alt:hover{color:var(--sky);}
-.btn-alt:hover::after{transform:translateX(4px);}
-.hero-top-bar{position:absolute;top:1.5rem;left:4%;right:4%;z-index:3;display:flex;justify-content:space-between;align-items:center;padding-top:80px;}
-.htb-left{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fade-in .6s .3s forwards;}
-.htb-right{display:flex;gap:1.2rem;}
-.htb-social{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .25s;opacity:0;animation:fade-in .6s .4s forwards;}
-.htb-social:hover{color:var(--sky);}
-.hero-scroll-line{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:3;opacity:0;animation:fade-in .5s 1.4s forwards;}
-.hsl-text{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-lr;}
-.hsl-bar{width:1px;height:60px;background:linear-gradient(to bottom,var(--sky),transparent);animation:hsl-anim 2s ease-in-out infinite 1.5s;}
-@keyframes hsl-anim{0%,100%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}}
+.hero-btns{display:flex;gap:1rem;opacity:0;animation:fade-in .6s 1.2s forwards;}
+.btn-sky{background:var(--sky);color:var(--bg);padding:.85rem 2.5rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .3s;transform-style:preserve-3d;}
+.btn-sky:hover{transform:perspective(400px) rotateX(-12deg) translateY(-4px);box-shadow:0 20px 40px rgba(56,189,248,.4),0 0 0 1px var(--sky);}
+.btn-ghost{border:1.5px solid var(--border);color:var(--sky2);padding:.85rem 2rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-ghost:hover{background:var(--glow);border-color:var(--sky);transform:perspective(400px) rotateX(-12deg) translateY(-4px);}
+.hero-top-bar{position:absolute;top:1.5rem;left:4%;right:4%;z-index:3;display:flex;justify-content:space-between;padding-top:80px;opacity:0;animation:fade-in .6s .2s forwards;}
+.htb-txt{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.htb-socials{display:flex;gap:1.2rem;}
+.htb-s{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:all .25s;}
+.htb-s:hover{color:var(--sky);transform:translateY(-2px);}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;z-index:3;opacity:0;animation:fade-in .5s 1.6s forwards;}
+.sh-txt{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-lr;}
+.sh-line{width:1px;height:55px;background:linear-gradient(to bottom,var(--sky),transparent);animation:sh-anim 2s ease-in-out infinite 1.8s;}
+@keyframes sh-anim{0%,100%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}}
+
+/* 3D FLOATING SHAPES in hero */
+.hero-shape{position:absolute;pointer-events:none;z-index:2;}
+.hs-ring{width:300px;height:300px;border-radius:50%;border:1px solid rgba(56,189,248,.12);animation:ring-float 8s ease-in-out infinite;}
+.hs-ring2{width:500px;height:500px;border-radius:50%;border:1px solid rgba(56,189,248,.06);animation:ring-float 12s ease-in-out infinite reverse;}
+.hs-ring3{width:160px;height:160px;border-radius:50%;border:2px solid rgba(56,189,248,.2);animation:ring-float 6s ease-in-out infinite 2s;}
+@keyframes ring-float{0%,100%{transform:translate(-50%,-50%) rotateX(60deg) rotateZ(0deg);}50%{transform:translate(-50%,-50%) rotateX(60deg) rotateZ(180deg);}}
+.hs-dot{width:6px;height:6px;border-radius:50%;background:var(--sky);box-shadow:0 0 20px var(--sky);animation:dot-pulse 3s ease-in-out infinite;}
+@keyframes dot-pulse{0%,100%{transform:scale(1);opacity:.8;}50%{transform:scale(2);opacity:.3;}}
 
 /* ── TICKER ── */
-.ticker{background:var(--sky);padding:.55rem 0;overflow:hidden;position:relative;z-index:2;}
+.ticker{background:var(--sky);padding:.55rem 0;overflow:hidden;position:relative;z-index:2;transform:perspective(600px) rotateX(-2deg);transform-origin:top;}
+.ticker:hover .ticker-track{animation-direction:reverse;}
 .ticker-track{display:inline-flex;animation:ticker 22s linear infinite;white-space:nowrap;}
 .ticker-item{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.12em;color:var(--bg);margin:0 1.5rem;}
-.ticker-dot{color:rgba(3,8,16,.35);margin:0 .3rem;}
+.ticker-dot{color:rgba(3,8,16,.3);margin:0 .3rem;}
 @keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
-/* ── SECTION BASE ── */
+/* ── SECTION COMMONS ── */
 .s-label{font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sky);margin-bottom:.6rem;display:flex;align-items:center;gap:.75rem;}
 .s-label::before{content:'';display:inline-block;width:28px;height:1px;background:var(--sky);}
 .s-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,5rem);letter-spacing:.02em;line-height:.95;color:var(--white);}
 .s-title em{font-family:'DM Sans',sans-serif;font-style:italic;font-weight:300;color:var(--sky);font-size:.7em;}
 
-/* ── ABOUT ── */
-#about{min-height:100vh;display:flex;align-items:center;padding:6rem 4%;position:relative;overflow:hidden;}
-.about-glow{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:500px;height:500px;background:radial-gradient(circle,var(--glow2),transparent 70%);pointer-events:none;}
-.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center;width:100%;}
-.about-left .s-title{font-size:clamp(3rem,7vw,7rem);line-height:.9;margin-bottom:2.5rem;}
+/* 3D text extrude helper */
+.extrude{
+  text-shadow:
+    1px 1px 0 var(--sky-deep),
+    2px 2px 0 rgba(3,105,161,.6),
+    3px 3px 0 rgba(3,105,161,.4),
+    4px 4px 0 rgba(3,105,161,.2),
+    5px 5px 20px rgba(56,189,248,.2);
+}
+
+/* ══════════════════════════════════════
+   ABOUT — 3D floating cards
+══════════════════════════════════════ */
+#about{min-height:100vh;display:flex;align-items:center;padding:6rem 4%;position:relative;overflow:hidden;background:var(--bg2);}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;width:100%;}
+.about-left .s-title{font-size:clamp(3rem,7vw,7rem);line-height:.9;margin-bottom:2rem;}
 .about-left .s-title .outline{-webkit-text-stroke:1.5px var(--sky);color:transparent;}
-.about-desc{font-size:1rem;color:var(--off);line-height:2;max-width:440px;margin-bottom:3rem;}
+.about-desc{font-size:.95rem;color:var(--off);line-height:2;max-width:440px;margin-bottom:2.5rem;}
 .about-chips{display:flex;flex-wrap:wrap;gap:.5rem;}
-.chip{border:1px solid var(--border);padding:.35rem 1rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sky2);transition:all .25s;}
-.chip:hover{background:var(--glow);border-color:var(--sky);}
-.about-right{display:flex;flex-direction:column;gap:2rem;}
-.stat-big{display:flex;align-items:baseline;gap:.3rem;}
-.stat-big-n{font-family:'Bebas Neue',sans-serif;font-size:5rem;color:var(--sky);line-height:1;}
-.stat-big-s{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--sky);}
-.stat-big-l{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-left:.5rem;}
-.stat-divider{width:100%;height:1px;background:var(--border2);}
-.about-quote{font-family:'DM Sans',sans-serif;font-style:italic;font-size:1.2rem;color:var(--off);line-height:1.7;border-left:2px solid var(--sky);padding-left:1.5rem;}
-.profile-card{background:var(--card);border:1px solid var(--border2);padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
-.pc-item .pc-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
-.pc-item .pc-val{font-size:.9rem;font-weight:500;color:var(--white);}
+.chip{border:1px solid var(--border);padding:.35rem 1rem;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sky2);transition:all .3s;display:inline-block;}
+.chip:hover{background:var(--glow);border-color:var(--sky);transform:perspective(200px) rotateX(-10deg) translateY(-3px);box-shadow:0 8px 20px rgba(56,189,248,.2);}
+.about-right{display:flex;flex-direction:column;gap:1.5rem;}
+/* 3D stat cards */
+.stat-card-3d{
+  background:var(--card);border:1px solid var(--border2);padding:1.8rem 2rem;
+  position:relative;overflow:hidden;
+  transform-style:preserve-3d;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .3s;
+  cursor:default;
+}
+.stat-card-3d::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(56,189,248,.05),transparent);opacity:0;transition:opacity .3s;}
+.stat-card-3d:hover{transform:perspective(600px) rotateX(-8deg) rotateY(4deg) translateY(-8px);border-color:var(--sky);box-shadow:0 30px 60px rgba(56,189,248,.15),0 0 0 1px rgba(56,189,248,.2);}
+.stat-card-3d:hover::before{opacity:1;}
+.stat-card-3d::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--sky),transparent);transform:scaleX(0);transition:transform .4s;}
+.stat-card-3d:hover::after{transform:scaleX(1);}
+.sc3-num{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--sky);line-height:1;display:block;}
+.sc3-label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:.25rem;}
+.sc3-shine{position:absolute;top:-60%;right:-60%;width:120%;height:120%;background:radial-gradient(circle,rgba(56,189,248,.08),transparent 60%);pointer-events:none;transition:transform .4s;}
+.stat-card-3d:hover .sc3-shine{transform:translate(-30%,30%);}
+.about-quote{font-style:italic;font-size:1.1rem;color:var(--off);line-height:1.7;border-left:2px solid var(--sky);padding-left:1.5rem;transform:perspective(400px) rotateY(2deg);transition:transform .3s;}
+.about-quote:hover{transform:perspective(400px) rotateY(-2deg);}
+.profile-card{background:var(--card);border:1px solid var(--border2);padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;transition:all .4s;}
+.profile-card:hover{transform:perspective(600px) rotateX(-5deg);border-color:var(--border);box-shadow:0 20px 40px rgba(56,189,248,.1);}
+.pc-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem;}
+.pc-val{font-size:.88rem;font-weight:500;}
 
-/* ── SERVICES ── */
-#services{padding:6rem 4%;background:var(--bg2);}
-.services-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:4rem;flex-wrap:wrap;gap:1.5rem;}
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border2);}
-.svc-card{background:var(--bg);padding:2.5rem 2rem;position:relative;overflow:hidden;cursor:pointer;transition:background .35s;}
-.svc-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--sky);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1);}
-.svc-card:hover{background:var(--bg3);}
-.svc-card:hover::before{transform:scaleX(1);}
-.svc-card:hover .svc-arrow{transform:translateX(6px);}
-.svc-num{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--border2);line-height:1;margin-bottom:1rem;transition:color .35s;}
-.svc-card:hover .svc-num{color:rgba(56,189,248,.12);}
-.svc-icon{font-size:1.8rem;margin-bottom:1rem;}
-.svc-name{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.75rem;transition:color .25s;}
-.svc-card:hover .svc-name{color:var(--sky);}
-.svc-desc{font-size:.82rem;color:var(--muted);line-height:1.85;margin-bottom:1.5rem;}
-.svc-tags{display:flex;flex-wrap:wrap;gap:.4rem;}
-.svc-tag{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--border2);padding:.2rem .6rem;color:var(--muted);transition:all .25s;}
-.svc-card:hover .svc-tag{border-color:var(--border);color:var(--sky2);}
-.svc-arrow{position:absolute;top:2rem;right:2rem;font-size:1.2rem;color:var(--muted);transition:transform .3s,color .25s;}
-.svc-card:hover .svc-arrow{color:var(--sky);}
+/* ══════════════════════════════════════
+   SERVICES — 3D flip cards
+══════════════════════════════════════ */
+#services{padding:6rem 4%;background:var(--bg);}
+.services-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3.5rem;flex-wrap:wrap;gap:1.5rem;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+/* 3D flip card */
+.svc-flip{height:320px;perspective:800px;cursor:pointer;}
+.svc-flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.16,1,.3,1);transform-style:preserve-3d;}
+.svc-flip:hover .svc-flip-inner{transform:rotateY(180deg);}
+.svc-front,.svc-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:2rem;display:flex;flex-direction:column;}
+.svc-front{background:var(--bg2);border:1px solid var(--border2);border-radius:2px;}
+.svc-back{background:linear-gradient(135deg,var(--bg3),rgba(56,189,248,.08));border:1px solid var(--border);transform:rotateY(180deg);justify-content:space-between;}
+.svc-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--border2);line-height:1;margin-bottom:1rem;}
+.svc-icon{font-size:1.6rem;margin-bottom:.8rem;}
+.svc-name{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:.6rem;}
+.svc-front-hint{font-size:.72rem;color:var(--muted);margin-top:auto;}
+.svc-back-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--sky);margin-bottom:.75rem;}
+.svc-back-desc{font-size:.8rem;color:var(--off);line-height:1.85;flex:1;}
+.svc-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;}
+.svc-tag{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--border);padding:.2rem .65rem;color:var(--sky2);}
+.svc-flip-hint{font-size:.6rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:.4rem;}
 
-/* ── WORKS ── */
-#works{padding:6rem 4%;background:var(--bg);}
+/* ══════════════════════════════════════
+   WORKS — 3D masonry with depth hover
+══════════════════════════════════════ */
+#works{padding:6rem 4%;background:var(--bg2);}
 .works-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;}
 .wtabs{display:flex;gap:.4rem;}
 .wtab{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);border:1px solid transparent;padding:.4rem 1.1rem;background:transparent;cursor:pointer;transition:all .25s;font-family:'DM Sans',sans-serif;}
 .wtab.on,.wtab:hover{color:var(--sky);border-color:var(--border);}
 .wtab.on{background:var(--glow);}
-
-/* Masonry-style grid */
-.works-masonry{columns:3;gap:1px;background:var(--border2);}
-.wcard{break-inside:avoid;background:var(--bg2);display:block;position:relative;overflow:hidden;cursor:pointer;margin-bottom:1px;transition:opacity .4s;}
-.wcard.hidden{opacity:0;pointer-events:none;height:0;overflow:hidden;margin:0;}
-.wthumb{width:100%;display:block;background:linear-gradient(145deg,var(--bg3),var(--bg));position:relative;}
-.wthumb-inner{width:100%;aspect-ratio:unset;padding-bottom:75%;position:relative;}
-.wcard:nth-child(2) .wthumb-inner{padding-bottom:110%;}
-.wcard:nth-child(5) .wthumb-inner{padding-bottom:120%;}
-.wnum{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:6rem;color:rgba(56,189,248,.06);transition:transform .5s;}
-.wcard:hover .wnum{transform:scale(1.08);}
-.woverlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,8,16,.95) 0%,rgba(3,8,16,.3) 50%,transparent 100%);opacity:0;transition:opacity .4s;}
+.works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+/* 3D work card */
+.wcard{background:var(--card);border:1px solid var(--border2);overflow:hidden;cursor:pointer;position:relative;
+  transform-style:preserve-3d;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .3s;}
+.wcard:hover{transform:perspective(600px) rotateX(-8deg) rotateY(4deg) translateY(-12px) scale(1.02);
+  box-shadow:0 40px 80px rgba(56,189,248,.18),0 0 0 1px rgba(56,189,248,.3);border-color:var(--sky);}
+.wthumb{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--bg3),var(--bg2));position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.wnum{font-family:'Bebas Neue',sans-serif;font-size:6rem;color:rgba(56,189,248,.07);transition:transform .5s,color .3s;}
+.wcard:hover .wnum{transform:scale(1.15) translateZ(20px);color:rgba(56,189,248,.12);}
+.woverlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(3,8,16,.95),rgba(3,8,16,.3) 50%,transparent);opacity:0;transition:opacity .4s;}
 .wcard:hover .woverlay{opacity:1;}
-.woverlay-content{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;transform:translateY(10px);transition:transform .4s;}
-.wcard:hover .woverlay-content{transform:translateY(0);}
-.wbadge{background:var(--sky);color:var(--bg);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .65rem;display:inline-block;margin-bottom:.5rem;}
-.wtitle{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem;}
-.wcat{font-size:.72rem;color:var(--sky2);}
-.winfo-bar{padding:1rem 1.2rem;border-top:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;}
-.winfo-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:600;}
-.winfo-cat{font-size:.65rem;color:var(--muted);letter-spacing:.08em;}
-.winfo-arr{color:var(--sky);opacity:0;transition:opacity .25s,transform .25s;}
-.wcard:hover .winfo-arr{opacity:1;transform:translateX(4px);}
+.w-overlay-content{position:absolute;bottom:1rem;left:1rem;right:1rem;transform:translateY(12px) translateZ(30px);transition:transform .4s;}
+.wcard:hover .w-overlay-content{transform:translateY(0) translateZ(30px);}
+.wbadge{background:var(--sky);color:var(--bg);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .6rem;display:inline-block;margin-bottom:.4rem;}
+.w-title{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.2rem;}
+.w-cat{font-size:.7rem;color:var(--sky2);}
+.winfo{padding:1rem 1.2rem;border-top:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center;}
+.wi-title{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:600;}
+.wi-cat{font-size:.65rem;color:var(--muted);}
+.wi-arr{color:var(--sky);opacity:0;transition:opacity .25s,transform .25s;}
+.wcard:hover .wi-arr{opacity:1;transform:translateX(4px);}
+/* shimmer */
+.wcard::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(56,189,248,.07) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s;pointer-events:none;}
+.wcard:hover::after{transform:translateX(100%);}
 
-/* ── SKILLS ── */
-#skills-sec{padding:6rem 4%;background:var(--bg2);}
-.skills-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:8rem;align-items:start;}
+/* ══════════════════════════════════════
+   SKILLS — 3D split (bars left + icon tower right)
+══════════════════════════════════════ */
+#skills-sec{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;overflow:hidden;background:var(--bg);}
+.sk-left{padding:6rem 5%;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;}
+.sk-left .s-title{font-size:clamp(3rem,5vw,5.5rem);line-height:.9;margin-bottom:2.5rem;}
 .sk-list{display:flex;flex-direction:column;gap:1.6rem;}
-.sk-row{}
+.sk-row{transition:transform .3s;}
+.sk-row:hover{transform:perspective(400px) rotateX(-4deg) translateX(8px);}
 .sk-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.6rem;}
-.sk-name{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:600;}
+.sk-name{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:600;}
 .sk-pct{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--sky);}
-.sk-track{height:1px;background:var(--border2);position:relative;}
-.sk-fill{position:absolute;top:-1px;left:0;height:3px;background:linear-gradient(90deg,var(--sky-deep),var(--sky),var(--sky2));width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
-.sk-glow-dot{position:absolute;right:-4px;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--sky);box-shadow:0 0 10px var(--sky),0 0 20px var(--sky);opacity:0;transition:opacity 1.4s;}
+.sk-track{height:2px;background:var(--border2);position:relative;}
+.sk-fill{position:absolute;top:-1px;left:0;height:4px;background:linear-gradient(90deg,var(--sky-deep),var(--sky),var(--sky2));width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+.sk-fill::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:shimmer 2.5s ease-in-out infinite 1.5s;}
+@keyframes shimmer{from{left:-100%;}to{left:200%;}}
+.sk-dot{position:absolute;right:-4px;top:-2px;width:8px;height:8px;border-radius:50%;background:var(--sky);box-shadow:0 0 10px var(--sky),0 0 20px var(--sky);opacity:0;transition:opacity 1.4s;}
 
-.tools-section{margin-top:0;}
-.tools-label{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;}
-.tools-list{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border2);}
-.tool-item{background:var(--bg);padding:1.5rem 1.25rem;display:flex;align-items:center;gap:1rem;transition:background .3s;cursor:default;}
-.tool-item:hover{background:var(--bg3);}
-.ti-abbr{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--sky);line-height:1;min-width:2.5rem;}
-.ti-name{font-size:.8rem;font-weight:500;margin-bottom:.15rem;}
-.ti-type{font-size:.62rem;color:var(--muted);letter-spacing:.08em;}
+/* 3D icon tower (right side) */
+.sk-right{position:relative;overflow:hidden;background:linear-gradient(160deg,#020509 0%,#040d24 35%,#071a44 65%,#0a2560 100%);display:flex;align-items:center;justify-content:center;}
+.sk-right-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 75% 50%,rgba(30,80,220,.5),rgba(10,30,100,.25) 50%,transparent 80%);pointer-events:none;}
+.icon-tower-wrap{width:260px;height:100%;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;perspective:800px;}
+.icon-tower-wrap::before,.icon-tower-wrap::after{content:'';position:absolute;left:0;right:0;height:200px;z-index:3;pointer-events:none;}
+.icon-tower-wrap::before{top:0;background:linear-gradient(to bottom,#030810,transparent);}
+.icon-tower-wrap::after{bottom:0;background:linear-gradient(to top,#040d24,transparent);}
+.icon-tower{display:flex;flex-direction:column;gap:18px;animation:tower-up 14s linear infinite;transform-style:preserve-3d;}
+@keyframes tower-up{0%{transform:translateY(0) rotateX(0deg);}100%{transform:translateY(-50%) rotateX(0deg);}}
+.icon-tower-wrap:hover .icon-tower{animation-play-state:paused;}
+.icon-row{display:flex;align-items:center;gap:1rem;}
+.icon-card{width:120px;height:120px;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;flex-shrink:0;
+  box-shadow:0 8px 32px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12);
+  transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;
+  transform-style:preserve-3d;cursor:default;}
+.icon-card:hover{transform:perspective(400px) rotateY(-20deg) rotateX(10deg) scale(1.1) translateZ(20px);box-shadow:20px 20px 50px rgba(0,0,0,.6),0 0 30px rgba(56,189,248,.2);}
+.ic-abbr{font-size:2.6rem;font-weight:900;line-height:1;font-family:'Syne',sans-serif;}
+.ic-name{font-size:.55rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.75;}
+.icon-row-lbl{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.4);white-space:nowrap;transition:color .3s;}
+.icon-card:hover+.icon-row-lbl,.icon-row:hover .icon-row-lbl{color:var(--white);}
+/* app colours */
+.ic-ps{background:linear-gradient(135deg,#001e36,#31a8ff);color:#31a8ff;}
+.ic-ai{background:linear-gradient(135deg,#300000,#ff9a00);color:#ff9a00;}
+.ic-pr{background:linear-gradient(135deg,#00005b,#9999ff);color:#9999ff;}
+.ic-ae{background:linear-gradient(135deg,#00005b,#c19eff);color:#c19eff;}
+.ic-lr{background:linear-gradient(135deg,#001a35,#31a8ff);color:#7ec8ff;}
+.ic-da{background:linear-gradient(135deg,#1a0000,#e8474c);color:#e8474c;}
+.ic-3d{background:linear-gradient(135deg,#001428,#38bdf8);color:#38bdf8;border:1px dashed rgba(56,189,248,.4);}
 
-/* ── GEAR ── */
-#gear{padding:6rem 4%;background:var(--bg);}
-.gear-layout{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:center;}
-.gear-big-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,8vw,8rem);line-height:.9;color:transparent;-webkit-text-stroke:1px var(--border2);}
-.gear-big-text span{color:var(--sky);-webkit-text-stroke:0;}
-.gear-brands{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
-.gear-brand{background:var(--bg2);border:1px solid var(--border2);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:border-color .3s,transform .35s;}
-.gear-brand::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--sky);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
-.gear-brand:hover{border-color:var(--sky);transform:translateY(-5px);}
-.gear-brand:hover::after{transform:scaleX(1);}
-.gb-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.15em;color:var(--sky);margin-bottom:1.5rem;}
-.gb-cameras{display:flex;flex-direction:column;gap:.6rem;}
-.gb-cam{display:flex;align-items:center;gap:.75rem;font-size:.82rem;color:var(--off);}
-.gb-cam::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--sky);flex-shrink:0;}
-.gear-num{font-family:'Bebas Neue',sans-serif;font-size:6rem;color:transparent;-webkit-text-stroke:1px var(--border2);line-height:1;display:block;margin-bottom:.5rem;}
+/* ══════════════════════════════════════
+   GEAR — 3D rotating brand cards
+══════════════════════════════════════ */
+#gear{padding:6rem 4%;background:var(--bg2);}
+.gear-layout{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:center;}
+.gear-big{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,8vw,8rem);line-height:.9;color:transparent;-webkit-text-stroke:1px var(--border2);}
+.gear-big span{color:var(--sky);-webkit-text-stroke:0;}
+.gear-num{font-family:'Bebas Neue',sans-serif;font-size:6rem;color:transparent;-webkit-text-stroke:1px var(--border2);line-height:1;animation:num-float 4s ease-in-out infinite;}
+@keyframes num-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 .gear-num-label{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.gear-brands{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.gear-brand{background:var(--card);border:1px solid var(--border2);padding:2.5rem 2rem;position:relative;overflow:hidden;
+  transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .4s,border-color .3s;}
+.gear-brand::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--sky),transparent);transform:scaleX(0);transition:transform .5s;}
+.gear-brand:hover{transform:perspective(600px) rotateY(-15deg) rotateX(8deg) translateY(-10px);border-color:var(--sky);box-shadow:20px 20px 60px rgba(56,189,248,.12),-5px -5px 30px rgba(56,189,248,.05);}
+.gear-brand:hover::before{transform:scaleX(1);}
+.gb-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.15em;color:var(--sky);margin-bottom:1.5rem;}
+.gb-cam{display:flex;align-items:center;gap:.7rem;font-size:.82rem;color:var(--off);margin-bottom:.55rem;}
+.gb-cam::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--sky);flex-shrink:0;}
 
-/* ── CONTACT ── */
+/* ══════════════════════════════════════
+   RESUME — 3D card with perspective float
+══════════════════════════════════════ */
+#resume{padding:6rem 4%;background:var(--bg);position:relative;overflow:hidden;}
+.resume-bg-txt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,18vw,18rem);color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.03);user-select:none;pointer-events:none;white-space:nowrap;}
+.resume-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:5rem;align-items:center;position:relative;z-index:2;}
+.resume-left .s-title{font-size:clamp(2.5rem,5vw,5rem);line-height:.95;margin-bottom:1.5rem;}
+.resume-left .s-title .outline{-webkit-text-stroke:1.5px var(--sky);color:transparent;}
+.resume-tagline{font-size:.9rem;color:var(--muted);line-height:1.9;max-width:380px;margin-bottom:2rem;}
+.rh-list{display:flex;flex-direction:column;gap:1px;background:var(--border2);margin-bottom:2rem;}
+.rh-item{background:var(--bg2);padding:.9rem 1.2rem;display:flex;align-items:center;gap:.9rem;transition:all .3s;}
+.rh-item:hover{background:var(--bg3);transform:perspective(400px) rotateX(-3deg) translateX(8px);}
+.rh-ico{width:32px;height:32px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;color:var(--sky);background:var(--glow2);}
+.rh-txt{font-size:.8rem;color:var(--off);}
+.rh-txt strong{color:var(--sky2);}
+.resume-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-dl{display:inline-flex;align-items:center;gap:.7rem;background:var(--sky);color:var(--bg);padding:.85rem 2.2rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .3s;position:relative;overflow:hidden;}
+.btn-dl:hover{transform:perspective(400px) rotateX(-12deg) translateY(-4px);box-shadow:0 20px 40px rgba(56,189,248,.4);}
+.btn-dl svg{width:16px;height:16px;fill:currentColor;transition:transform .3s;}
+.btn-dl:hover svg{transform:translateY(3px);}
+.btn-vw{display:inline-flex;align-items:center;gap:.6rem;border:1.5px solid var(--border);color:var(--sky2);padding:.85rem 2rem;font-family:'Syne',sans-serif;font-size:.8rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:all .3s;}
+.btn-vw:hover{background:var(--glow);border-color:var(--sky);transform:perspective(400px) rotateX(-12deg) translateY(-4px);}
+/* 3D resume card */
+.resume-card-wrap{perspective:1000px;}
+.resume-card{background:var(--bg2);border:1px solid var(--border);position:relative;overflow:hidden;aspect-ratio:3/4;display:flex;flex-direction:column;
+  transform:rotateY(-8deg) rotateX(4deg);
+  transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s;
+  transform-style:preserve-3d;
+  box-shadow:20px 20px 60px rgba(0,0,0,.5),-5px -5px 30px rgba(56,189,248,.05);}
+.resume-card:hover{transform:rotateY(0deg) rotateX(0deg);box-shadow:0 40px 80px rgba(56,189,248,.15),0 0 0 1px rgba(56,189,248,.2);}
+.rc-top{background:linear-gradient(135deg,var(--bg3),var(--card));padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border2);}
+.rc-name{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.08em;line-height:1;}
+.rc-roles{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;}
+.rc-role{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sky);color:var(--bg);padding:.18rem .6rem;font-weight:700;}
+.rc-contact{margin-top:.8rem;display:flex;gap:1.5rem;}
+.rc-contact span{font-size:.62rem;color:var(--muted);}
+.rc-body{padding:1.5rem 2rem;flex:1;display:flex;flex-direction:column;gap:1.2rem;}
+.rc-sec-title{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;}
+.rc-sec-title::after{content:'';flex:1;height:1px;background:var(--border2);}
+.rc-bar-row{display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.4rem;}
+.rc-bar-label{font-size:.62rem;color:var(--off);white-space:nowrap;}
+.rc-bar-track{flex:1;height:4px;background:var(--border2);border-radius:2px;overflow:hidden;position:relative;}
+.rc-bar-fill{position:absolute;inset:0;background:linear-gradient(90deg,var(--sky-deep),var(--sky));transform:scaleX(0);transform-origin:left;border-radius:2px;}
+.rc-bar-pct{font-size:.6rem;color:var(--sky);}
+.rc-exp-item{margin-bottom:.5rem;}
+.rc-exp-role{font-size:.67rem;font-weight:600;color:var(--white);}
+.rc-exp-date{font-size:.6rem;color:var(--sky);}
+.rc-tools{display:flex;gap:.35rem;flex-wrap:wrap;}
+.rc-tool{font-size:.58rem;border:1px solid var(--border2);padding:.15rem .5rem;color:var(--sky2);}
+.rc-fade{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,rgba(6,14,28,.98),transparent);z-index:2;}
+.rc-dl-btn{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:3;white-space:nowrap;}
+.rc-dl-inner{background:var(--sky);color:var(--bg);font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.55rem 1.5rem;display:flex;align-items:center;gap:.5rem;text-decoration:none;transition:opacity .2s;}
+.rc-dl-inner:hover{opacity:.85;}
+.rc-corners .corner{position:absolute;width:14px;height:14px;border-color:var(--sky);border-style:solid;}
+.rc-corners .c-tl{top:0;left:0;border-width:2px 0 0 2px;}
+.rc-corners .c-tr{top:0;right:0;border-width:2px 2px 0 0;}
+.rc-corners .c-bl{bottom:0;left:0;border-width:0 0 2px 2px;}
+.rc-corners .c-br{bottom:0;right:0;border-width:0 2px 2px 0;}
+
+/* ══════════════════════════════════════
+   CONTACT — 3D form + info
+══════════════════════════════════════ */
 #contact{min-height:100vh;display:flex;align-items:center;padding:6rem 4%;position:relative;overflow:hidden;background:var(--bg2);}
-.contact-bg-text{position:absolute;bottom:-2rem;left:0;right:0;font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,20vw,20rem);color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.04);letter-spacing:.05em;line-height:1;user-select:none;pointer-events:none;white-space:nowrap;}
-.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:8rem;width:100%;position:relative;z-index:2;}
+.ct-bg-txt{position:absolute;bottom:-2rem;left:0;right:0;font-family:'Bebas Neue',sans-serif;font-size:clamp(8rem,20vw,20rem);color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.04);user-select:none;pointer-events:none;white-space:nowrap;}
+.ct-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:6rem;width:100%;position:relative;z-index:2;}
 .ct-left .s-title{font-size:clamp(3rem,6vw,6rem);line-height:.9;margin-bottom:2rem;}
 .ct-left .s-title .outline{-webkit-text-stroke:1.5px var(--sky);color:transparent;}
-.ct-sub{font-size:.9rem;color:var(--muted);line-height:1.9;max-width:380px;margin-bottom:2.5rem;}
-.ct-info-list{display:flex;flex-direction:column;gap:1.2rem;}
-.cil-item{display:flex;align-items:center;gap:1.1rem;}
-.cil-icon{width:44px;height:44px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;background:var(--glow2);}
-.cil-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem;}
-.cil-val{font-size:.88rem;font-weight:500;}
-.cil-val a{color:var(--white);text-decoration:none;transition:color .2s;}
-.cil-val a:hover{color:var(--sky);}
-.ct-form{display:flex;flex-direction:column;gap:0;}
-.fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.4rem;}
-.fl{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-.fi,.ft,.fsel{background:transparent;border:none;border-bottom:1px solid var(--border2);padding:.8rem 0;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:300;color:var(--white);outline:none;transition:border-color .25s;width:100%;}
-.fi:focus,.ft:focus,.fsel:focus{border-color:var(--sky);}
+.ct-sub{font-size:.88rem;color:var(--muted);line-height:1.9;max-width:380px;margin-bottom:2rem;}
+.ct-info{display:flex;flex-direction:column;gap:1.1rem;}
+.ci{display:flex;align-items:center;gap:1rem;transition:transform .3s;}
+.ci:hover{transform:perspective(400px) rotateX(-5deg) translateX(8px);}
+.ci-ico{width:42px;height:42px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;background:var(--glow2);transition:all .3s;}
+.ci:hover .ci-ico{background:var(--glow);border-color:var(--sky);transform:perspective(200px) rotateY(-15deg);}
+.ci-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.1rem;}
+.ci-val{font-size:.88rem;font-weight:500;}
+.ci-val a{color:var(--white);text-decoration:none;transition:color .2s;}
+.ci-val a:hover{color:var(--sky);}
+/* 3D form */
+.ct-form-wrap{perspective:800px;}
+.ct-form{display:flex;flex-direction:column;gap:1.1rem;transform:rotateY(-3deg);transition:transform .5s;}
+.ct-form:hover,.ct-form:focus-within{transform:rotateY(0deg);}
+.fg{display:flex;flex-direction:column;gap:.35rem;}
+.fl{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.fi,.ft,.fsel{background:rgba(56,189,248,.03);border:none;border-bottom:1px solid var(--border2);padding:.8rem 0;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:300;color:var(--white);outline:none;transition:all .3s;width:100%;}
+.fi:focus,.ft:focus,.fsel:focus{border-color:var(--sky);background:transparent;transform:translateZ(10px);}
 .fi::placeholder,.ft::placeholder{color:var(--muted);}
 .ft{resize:none;min-height:100px;}
 .fsel option{background:var(--bg3);color:var(--white);}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
-.fsub{background:var(--sky);color:var(--bg);border:none;padding:.9rem 3rem;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);transition:opacity .2s,transform .25s;margin-top:.5rem;align-self:flex-start;}
-.fsub:hover{opacity:.85;transform:translateY(-3px);}
-
-/* ── RESUME SECTION ── */
-#resume{padding:6rem 4%;background:var(--bg3);position:relative;overflow:hidden;}
-.resume-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(10rem,22vw,22rem);color:transparent;-webkit-text-stroke:1px rgba(56,189,248,.03);white-space:nowrap;user-select:none;pointer-events:none;z-index:0;}
-.resume-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:center;position:relative;z-index:2;}
-.resume-left .s-title{font-size:clamp(2.5rem,5vw,5rem);line-height:.95;margin-bottom:1.5rem;}
-.resume-left .s-title .outline{-webkit-text-stroke:1.5px var(--sky);color:transparent;}
-.resume-tagline{font-size:.9rem;color:var(--muted);line-height:1.9;max-width:380px;margin-bottom:2.5rem;}
-.resume-highlights{display:flex;flex-direction:column;gap:1px;background:var(--border2);margin-bottom:2.5rem;}
-.rh-item{background:var(--bg2);padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;transition:background .25s;}
-.rh-item:hover{background:var(--card);}
-.rh-ico{width:34px;height:34px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;color:var(--sky);background:var(--glow2);}
-.rh-text{font-size:.82rem;color:var(--off);font-weight:400;}
-.rh-text strong{color:var(--sky2);font-weight:600;}
-.resume-btns{display:flex;gap:1rem;flex-wrap:wrap;}
-.btn-download{display:inline-flex;align-items:center;gap:.75rem;background:var(--sky);color:var(--bg);padding:.9rem 2.2rem;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:opacity .2s,transform .25s;cursor:pointer;border:none;}
-.btn-download:hover{opacity:.85;transform:translateY(-3px);}
-.btn-download svg{width:16px;height:16px;fill:currentColor;transition:transform .3s;}
-.btn-download:hover svg{transform:translateY(2px);}
-.btn-view{display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--border);color:var(--sky2);padding:.9rem 2rem;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:all .3s;background:transparent;}
-.btn-view:hover{background:var(--glow);border-color:var(--sky);}
-
-/* Resume preview card */
-.resume-preview-wrap{position:relative;}
-.resume-preview-card{background:var(--bg);border:1px solid var(--border);position:relative;overflow:hidden;aspect-ratio:3/4;display:flex;flex-direction:column;}
-.rpc-top{background:linear-gradient(135deg,var(--bg2),var(--bg3));padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--border2);}
-.rpc-name{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.08em;color:var(--white);line-height:1;}
-.rpc-roles{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;}
-.rpc-role{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sky);color:var(--bg);padding:.2rem .6rem;font-weight:700;}
-.rpc-body{padding:1.5rem 2rem;flex:1;display:flex;flex-direction:column;gap:1.2rem;}
-.rpc-section-title{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sky);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;}
-.rpc-section-title::after{content:'';flex:1;height:1px;background:var(--border2);}
-.rpc-line{height:6px;background:var(--border2);border-radius:2px;position:relative;overflow:hidden;}
-.rpc-line::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--sky-deep),var(--sky));transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(.4,0,.2,1);}
-.rpc-line.ani::after{transform:scaleX(1);}
-.rpc-line-sm{width:60%;}
-.rpc-line-md{width:80%;}
-.rpc-text-line{height:6px;background:var(--border2);border-radius:1px;margin-bottom:.4rem;}
-.rpc-scan-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 0%,rgba(3,8,16,0) 60%,rgba(3,8,16,.95) 100%);pointer-events:none;z-index:2;}
-.rpc-float{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:3;white-space:nowrap;}
-.rpc-float-inner{background:var(--sky);color:var(--bg);font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.6rem 1.5rem;display:flex;align-items:center;gap:.6rem;cursor:pointer;border:none;transition:opacity .2s;}
-.rpc-float-inner:hover{opacity:.85;}
-.preview-corner{position:absolute;width:16px;height:16px;border-color:var(--sky);border-style:solid;z-index:4;}
-.pc-tl{top:-1px;left:-1px;border-width:2px 0 0 2px;}
-.pc-tr{top:-1px;right:-1px;border-width:2px 2px 0 0;}
-.pc-bl{bottom:-1px;left:-1px;border-width:0 0 2px 2px;}
-.pc-br{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
-.preview-badge{position:absolute;top:-1rem;right:2rem;background:var(--sky);color:var(--bg);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem .9rem;z-index:4;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.f-submit{background:var(--sky);color:var(--bg);border:none;padding:.9rem 3rem;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;align-self:flex-start;position:relative;overflow:hidden;}
+.f-submit:hover{transform:perspective(400px) rotateX(-12deg) translateY(-4px);box-shadow:0 20px 40px rgba(56,189,248,.4);}
 
 /* ── FOOTER ── */
-footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
-.foot-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.1em;color:var(--sky);text-decoration:none;}
-.foot-copy{font-size:.68rem;color:var(--muted);letter-spacing:.06em;}
+footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;transform:perspective(800px) rotateX(-1deg);transform-origin:top;}
+.foot-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.1em;color:var(--sky);text-decoration:none;transition:all .3s;}
+.foot-logo:hover{transform:perspective(200px) rotateY(-10deg);text-shadow:5px 0 20px rgba(56,189,248,.5);}
+.foot-copy{font-size:.68rem;color:var(--muted);}
 .foot-links{display:flex;gap:1.5rem;}
-.foot-links a{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;}
-.foot-links a:hover{color:var(--sky);}
+.foot-links a{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:all .2s;}
+.foot-links a:hover{color:var(--sky);transform:translateY(-2px);}
 
 /* ── REVEAL SYSTEM ── */
-.rv{opacity:0;transform:translateY(50px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
-.rv.in{opacity:1;transform:translateY(0);}
-.rv-l{opacity:0;transform:translateX(-50px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
-.rv-l.in{opacity:1;transform:translateX(0);}
-.rv-r{opacity:0;transform:translateX(50px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
-.rv-r.in{opacity:1;transform:translateX(0);}
-.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}.d6{transition-delay:.6s;}
+.rv{opacity:0;transform:translateY(50px) rotateX(-15deg);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:translateY(0) rotateX(0);}
+.rv-l{opacity:0;transform:translateX(-50px) rotateY(15deg);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv-l.in{opacity:1;transform:translateX(0) rotateY(0);}
+.rv-r{opacity:0;transform:translateX(50px) rotateY(-15deg);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
+.rv-r.in{opacity:1;transform:translateX(0) rotateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}
+
+/* 3D TYPEWRITER */
+#typewriter{display:inline-block;}
+#typewriter::after{content:'|';color:#38bdf8;animation:blink .7s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* ── RIPPLE ── */
+@keyframes ripple-anim{to{transform:scale(4);opacity:0;}}
+/* ── CONFETTI ── */
+@keyframes confetti-fly{100%{transform:translate(var(--dx),var(--dy)) rotate(720deg);opacity:0;}}
+/* ── ORBS ── */
+@keyframes orb-float{0%,100%{transform:translate(0,0);}33%{transform:translate(30px,-40px);}66%{transform:translate(-20px,20px);}}
+
+/* ── SCAN LINE ── */
+#hero::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(56,189,248,.012) 2px,rgba(56,189,248,.012) 4px);pointer-events:none;z-index:4;animation:scan 8s linear infinite;}
+@keyframes scan{to{background-position:0 80px;}}
+
+/* ── AVAILABLE DOT ── */
+.avail-dot{position:relative;display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;}
+.avail-dot::before{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid #22c55e;animation:ring-expand 2s ease-out infinite;}
+@keyframes ring-expand{0%{transform:scale(1);opacity:.8;}100%{transform:scale(2.5);opacity:0;}}
 
 /* ── MOBILE ── */
 @media(max-width:960px){
   body{cursor:auto;}#cur,#cur-ring{display:none;}
-  nav{padding:1rem 4%;}
-  .nav-links{display:none;}
-  .hero-name{font-size:clamp(4rem,15vw,8rem);}
-  .hero-bottom{grid-template-columns:1fr;}
-  .hero-right-panel{align-items:flex-start;}
-  .about-layout,.services-layout,.skills-layout,.gear-layout,.contact-layout,.resume-layout{grid-template-columns:1fr;gap:3rem;}
+  nav{padding:1rem 4%;}.nav-links{display:none;}
+  #hero .hero-bottom{grid-template-columns:1fr;}
+  .about-layout,.gear-layout,.resume-layout,.ct-layout{grid-template-columns:1fr;gap:3rem;}
   .svc-grid{grid-template-columns:1fr;}
-  .works-masonry{columns:2;}
-  .tools-list{grid-template-columns:1fr;}
+  .works-grid{grid-template-columns:repeat(2,1fr);}
   .gear-brands{grid-template-columns:1fr 1fr;}
-  footer{flex-direction:column;text-align:center;}
+  #skills-sec{grid-template-columns:1fr;min-height:auto;}
+  .sk-right{min-height:420px;}
   .frow{grid-template-columns:1fr;}
+  footer{flex-direction:column;text-align:center;transform:none;}
 }
 @media(max-width:540px){
-  .works-masonry{columns:1;}
-  .gear-brands{grid-template-columns:1fr;}
-  #about,#services,#works,#skills-sec,#gear,#contact{padding:4rem 4%;}
+  .works-grid,.gear-brands{grid-template-columns:1fr;}
+  section,#about,#services,#works,#skills-sec,#gear,#resume,#contact{padding:3.5rem 4%;}
 }
 </style>
 </head>
 <body>
 
-<!-- CURSOR -->
 <div id="cur"></div>
 <div id="cur-ring"></div>
+<div id="prog"></div>
 
 <!-- PRELOADER -->
-<div id="preloader">
+<div id="pre">
   <div class="pre-name">NITHIN YUVARAJ</div>
-  <div class="pre-bar"><div class="pre-fill" id="preFill"></div></div>
+  <div class="pre-bar-wrap"><div class="pre-bar-fill" id="preBar"></div></div>
 </div>
 
 <!-- NAV -->
@@ -354,150 +468,140 @@ footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;
     <li><a href="#resume">Resume</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="nav-hire">Hire Me</a>
+  <a href="#contact" class="nav-cta">Hire Me</a>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <canvas class="hero-canvas" id="heroCanvas"></canvas>
-  <div class="hero-grid"></div>
-  <div class="hero-radial"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-grid-layer"></div>
+
+  <!-- floating 3D rings -->
+  <div class="hero-shape hs-ring" style="top:30%;left:55%;transform:translate(-50%,-50%);"></div>
+  <div class="hero-shape hs-ring2" style="top:40%;left:60%;transform:translate(-50%,-50%);"></div>
+  <div class="hero-shape hs-ring3" style="top:20%;left:75%;"></div>
+  <div class="hero-shape hs-dot" style="top:25%;left:72%;"></div>
+  <div class="hero-shape hs-dot" style="top:65%;left:55%;animation-delay:1s;"></div>
 
   <div class="hero-top-bar">
-    <span class="htb-left">Bangalore, India · 2026</span>
-    <div class="htb-right">
-      <a href="mailto:nithinyuva449@gmail.com" class="htb-social">Email</a>
-      <a href="#" class="htb-social">Instagram</a>
-      <a href="#" class="htb-social">Behance</a>
+    <span class="htb-txt">Bangalore, India · 2026</span>
+    <div class="htb-socials">
+      <a href="mailto:nithinyuva449@gmail.com" class="htb-s">Email</a>
+      <a href="#" class="htb-s">Instagram</a>
+      <a href="#" class="htb-s">Behance</a>
     </div>
   </div>
 
   <div class="hero-bottom">
-    <div class="hero-name-wrap">
-      <div class="hero-name">
+    <div>
+      <div style="overflow:hidden;"><p style="font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sky);opacity:0;animation:fade-in .6s .2s forwards;">Visual Creative from Bangalore</p></div>
+      <div class="hero-name" id="heroName">
         <span class="hn-line"><span class="hn-word hn-w1">NITHIN</span></span>
         <span class="hn-line"><span class="hn-word hn-w2">YUVARAJ</span></span>
       </div>
+      <p style="font-family:'Syne',sans-serif;font-size:clamp(1rem,2.2vw,1.5rem);font-weight:700;color:var(--sky2);min-height:2rem;margin-top:.5rem;opacity:0;animation:fade-in .4s 1s forwards;"><span id="typewriter"></span></p>
+      <p style="font-size:.9rem;color:var(--muted);line-height:1.85;max-width:440px;margin:.75rem 0 2rem;opacity:0;animation:fade-in .6s 1.2s forwards;">Multidisciplinary visual content specialist with 5+ years of experience — delivering high-impact digital assets for brands, agencies, and clients.</p>
+      <div class="hero-btns">
+        <a href="#works" class="btn-sky">View My Work</a>
+        <a href="#contact" class="btn-ghost">Let's Talk</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:.75rem;margin-top:1.5rem;opacity:0;animation:fade-in .5s 1.4s forwards;">
+        <span class="avail-dot"></span>
+        <span style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);">Available for Freelance</span>
+      </div>
     </div>
     <div class="hero-right-panel">
-      <div class="hero-role-stack">
-        <div class="hero-eyebrow">Visual Creative</div>
-        <div class="hero-roles">
-          <div class="hero-role-item hr-r1"><span>Graphic</span> Designer</div>
-          <div class="hero-role-item hr-r2"><span>Video</span> Editor</div>
-          <div class="hero-role-item hr-r3"><span>Photo</span>grapher</div>
-        </div>
+      <div class="hero-eyebrow">Visual Creative</div>
+      <div class="hero-roles">
+        <div class="hero-role-item hr1"><span>Graphic</span> Designer</div>
+        <div class="hero-role-item hr2"><span>Video</span> Editor</div>
+        <div class="hero-role-item hr3"><span>Photo</span>grapher</div>
       </div>
-      <div class="hero-cta-row">
-        <a href="#works" class="btn-main">View Work</a>
-        <a href="#contact" class="btn-alt">Let's Talk</a>
+      <div class="hero-btns" style="flex-direction:column;gap:.5rem;align-items:flex-end;">
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <span style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);">5+ Yrs</span>
+          <span style="font-size:2rem;font-family:'Bebas Neue',sans-serif;color:var(--sky);line-height:1;">50+</span>
+          <span style="font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);">Projects</span>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="hero-scroll-line">
-    <span class="hsl-text">Scroll</span>
-    <span class="hsl-bar"></span>
-  </div>
+  <div class="scroll-hint"><span class="sh-txt">Scroll</span><span class="sh-line"></span></div>
 </section>
 
 <!-- TICKER -->
-<div class="ticker" aria-hidden="true">
-  <div class="ticker-track" id="tickerTrack"></div>
-</div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track" id="tickerTrack"></div></div>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="about-glow"></div>
   <div class="about-layout">
-    <div class="about-left rv-l">
+    <div class="rv-l">
       <p class="s-label">About Me</p>
-      <h2 class="s-title" style="font-size:clamp(3rem,7vw,7rem);line-height:.9;margin-bottom:2rem;">MULTI<br/><span class="outline">DISCIP</span><br/>LINARY</h2>
-      <p class="about-desc">Multidisciplinary visual content specialist with 5+ years of experience across graphic design, video editing, and photography — delivering high-impact digital assets for brands, agencies, and clients. Currently advancing in 3D Animation.</p>
+      <h2 class="s-title extrude" style="font-size:clamp(3rem,7vw,7rem);line-height:.9;margin-bottom:2rem;">MULTI<br/><span class="outline">DISCIP</span><br/>LINARY</h2>
+      <p class="about-desc">Multidisciplinary visual content specialist with 5+ years of experience across graphic design, video editing, and photography. Advanced proficiency in Adobe Creative Suite and DaVinci Resolve. Currently advancing in 3D Animation.</p>
       <div class="about-chips">
-        <span class="chip">English</span>
-        <span class="chip">Kannada</span>
-        <span class="chip">Hindi</span>
-        <span class="chip">Telugu</span>
-        <span class="chip">Bangalore · India</span>
-        <span class="chip">Male</span>
+        <span class="chip">English</span><span class="chip">Kannada</span>
+        <span class="chip">Hindi</span><span class="chip">Telugu</span>
+        <span class="chip">Bangalore</span><span class="chip">Open to Remote</span>
       </div>
     </div>
     <div class="about-right rv-r">
-      <div class="stat-big"><span class="stat-big-n counter" data-t="5">0</span><span class="stat-big-s">+</span><span class="stat-big-l">Years of Experience</span></div>
-      <div class="stat-divider"></div>
-      <div class="stat-big"><span class="stat-big-n counter" data-t="50">0</span><span class="stat-big-s">+</span><span class="stat-big-l">Projects Delivered</span></div>
-      <div class="stat-divider"></div>
-      <div class="stat-big"><span class="stat-big-n counter" data-t="30">0</span><span class="stat-big-s">+</span><span class="stat-big-l">Happy Clients</span></div>
-      <div class="stat-divider"></div>
+      <div class="stat-card-3d"><div class="sc3-shine"></div><span class="sc3-num counter" data-t="5">0</span><sup style="color:var(--sky);font-size:1.5rem;">+</sup><div class="sc3-label">Years of Experience</div></div>
+      <div class="stat-card-3d" style="transition-delay:.1s"><div class="sc3-shine"></div><span class="sc3-num counter" data-t="50">0</span><sup style="color:var(--sky);font-size:1.5rem;">+</sup><div class="sc3-label">Projects Delivered</div></div>
+      <div class="stat-card-3d" style="transition-delay:.2s"><div class="sc3-shine"></div><span class="sc3-num counter" data-t="30">0</span><sup style="color:var(--sky);font-size:1.5rem;">+</sup><div class="sc3-label">Happy Clients</div></div>
       <blockquote class="about-quote">"Every frame is intentional. Every pixel has a purpose."</blockquote>
       <div class="profile-card rv d2">
-        <div class="pc-item"><div class="pc-label">Email</div><div class="pc-val" style="font-size:.78rem;">nithinyuva449@gmail.com</div></div>
+        <div class="pc-item"><div class="pc-label">Email</div><div class="pc-val" style="font-size:.75rem;">nithinyuva449@gmail.com</div></div>
         <div class="pc-item"><div class="pc-label">Phone</div><div class="pc-val">+91 7619171650</div></div>
-        <div class="pc-item"><div class="pc-label">Freelance</div><div class="pc-val" style="color:#22c55e;">Available ✓</div></div>
+        <div class="pc-item"><div class="pc-label">Freelance</div><div class="pc-val" style="color:#22c55e;">Open ✓</div></div>
         <div class="pc-item"><div class="pc-label">Location</div><div class="pc-val">Bangalore 560073</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SERVICES -->
+<!-- SERVICES — 3D flip cards -->
 <section id="services">
   <div class="services-header rv">
-    <div>
-      <p class="s-label">What I Do</p>
-      <h2 class="s-title">MY <em>SERVICES</em></h2>
-    </div>
-    <p style="font-size:.85rem;color:var(--muted);max-width:320px;line-height:1.8;">End-to-end creative solutions — from concept to final output, tailored to your brand.</p>
+    <div><p class="s-label">What I Do</p><h2 class="s-title extrude">MY <em>SERVICES</em></h2></div>
+    <p style="font-size:.82rem;color:var(--muted);max-width:300px;line-height:1.8;">Hover each card to flip and see details ↻</p>
   </div>
   <div class="svc-grid">
-    <div class="svc-card rv d1">
-      <span class="svc-num">01</span>
-      <span class="svc-arrow">↗</span>
-      <div class="svc-icon">◈</div>
-      <div class="svc-name">Graphic Design &amp; Branding</div>
-      <p class="svc-desc">Brand identities, logos, digital creatives, and marketing assets that communicate your brand vision with clarity and impact.</p>
-      <div class="svc-tags"><span class="svc-tag">Logo</span><span class="svc-tag">Branding</span><span class="svc-tag">Print</span><span class="svc-tag">Digital</span></div>
+    <div class="svc-flip rv d1">
+      <div class="svc-flip-inner">
+        <div class="svc-front"><div class="svc-num">01</div><div class="svc-icon">◈</div><div class="svc-name">Graphic Design &amp; Branding</div><div class="svc-front-hint">Hover to flip ↻</div></div>
+        <div class="svc-back"><div class="svc-back-title">Graphic Design</div><p class="svc-back-desc">Brand identities, logos, digital creatives, and marketing assets — delivered for agencies, startups, and brands with client-focused precision.</p><div class="svc-tags"><span class="svc-tag">Logo</span><span class="svc-tag">Identity</span><span class="svc-tag">Print</span><span class="svc-tag">Digital</span></div></div>
+      </div>
     </div>
-    <div class="svc-card rv d2">
-      <span class="svc-num">02</span>
-      <span class="svc-arrow">↗</span>
-      <div class="svc-icon">▷</div>
-      <div class="svc-name">Video Editing &amp; Post-Production</div>
-      <p class="svc-desc">Promotional, commercial, and social media video content with expert colour grading, transitions, and storytelling for high retention.</p>
-      <div class="svc-tags"><span class="svc-tag">Colour Grade</span><span class="svc-tag">Reels</span><span class="svc-tag">YouTube</span><span class="svc-tag">Ads</span></div>
+    <div class="svc-flip rv d2">
+      <div class="svc-flip-inner">
+        <div class="svc-front"><div class="svc-num">02</div><div class="svc-icon">▷</div><div class="svc-name">Video Editing &amp; Post-Production</div><div class="svc-front-hint">Hover to flip ↻</div></div>
+        <div class="svc-back"><div class="svc-back-title">Video Editing</div><p class="svc-back-desc">Promotional, commercial &amp; social media content with expert colour grading, transitions and storytelling — optimised for Instagram, YouTube &amp; Ads.</p><div class="svc-tags"><span class="svc-tag">Colour Grade</span><span class="svc-tag">Reels</span><span class="svc-tag">YouTube</span></div></div>
+      </div>
     </div>
-    <div class="svc-card rv d3">
-      <span class="svc-num">03</span>
-      <span class="svc-arrow">↗</span>
-      <div class="svc-icon">◎</div>
-      <div class="svc-name">Photography</div>
-      <p class="svc-desc">Fashion, portfolio, wedding, event, and portrait photography. End-to-end management from shoot to edited delivery with high-quality retouching.</p>
-      <div class="svc-tags"><span class="svc-tag">Fashion</span><span class="svc-tag">Weddings</span><span class="svc-tag">Events</span><span class="svc-tag">Portraits</span></div>
+    <div class="svc-flip rv d3">
+      <div class="svc-flip-inner">
+        <div class="svc-front"><div class="svc-num">03</div><div class="svc-icon">◎</div><div class="svc-name">Photography</div><div class="svc-front-hint">Hover to flip ↻</div></div>
+        <div class="svc-back"><div class="svc-back-title">Photography</div><p class="svc-back-desc">Fashion, portfolio, wedding, event, and portrait photography — end-to-end from shoot to edited delivery with high-quality retouching.</p><div class="svc-tags"><span class="svc-tag">Fashion</span><span class="svc-tag">Weddings</span><span class="svc-tag">Events</span></div></div>
+      </div>
     </div>
-    <div class="svc-card rv d1">
-      <span class="svc-num">04</span>
-      <span class="svc-arrow">↗</span>
-      <div class="svc-icon">⚡</div>
-      <div class="svc-name">Motion Graphics</div>
-      <p class="svc-desc">Animated titles, visual effects, and dynamic content that elevates video production and brand communication.</p>
-      <div class="svc-tags"><span class="svc-tag">Animation</span><span class="svc-tag">Titles</span><span class="svc-tag">VFX</span></div>
+    <div class="svc-flip rv d1">
+      <div class="svc-flip-inner">
+        <div class="svc-front"><div class="svc-num">04</div><div class="svc-icon">⚡</div><div class="svc-name">Motion Graphics</div><div class="svc-front-hint">Hover to flip ↻</div></div>
+        <div class="svc-back"><div class="svc-back-title">Motion Graphics</div><p class="svc-back-desc">Animated titles, visual effects, and dynamic content that elevates video production quality and brand communication.</p><div class="svc-tags"><span class="svc-tag">Animation</span><span class="svc-tag">Titles</span><span class="svc-tag">VFX</span></div></div>
+      </div>
     </div>
-    <div class="svc-card rv d2">
-      <span class="svc-num">05</span>
-      <span class="svc-arrow">↗</span>
-      <div class="svc-icon">⬡</div>
-      <div class="svc-name">Social Media Content</div>
-      <p class="svc-desc">Visually optimised content strategies — carousels, reels, and branded assets that convert scrollers into followers and customers.</p>
-      <div class="svc-tags"><span class="svc-tag">Instagram</span><span class="svc-tag">Strategy</span><span class="svc-tag">Content</span></div>
+    <div class="svc-flip rv d2">
+      <div class="svc-flip-inner">
+        <div class="svc-front"><div class="svc-num">05</div><div class="svc-icon">⬡</div><div class="svc-name">Social Media Content</div><div class="svc-front-hint">Hover to flip ↻</div></div>
+        <div class="svc-back"><div class="svc-back-title">Social Media</div><p class="svc-back-desc">Visually optimised content strategies — carousels, reels, and branded assets that convert scrollers into loyal followers.</p><div class="svc-tags"><span class="svc-tag">Instagram</span><span class="svc-tag">Strategy</span><span class="svc-tag">Reels</span></div></div>
+      </div>
     </div>
-    <div class="svc-card rv d3">
-      <span class="svc-num">06</span>
-      <span class="svc-arrow">↗</span>
-      <div class="svc-icon">⌘</div>
-      <div class="svc-name">Creative Direction</div>
-      <p class="svc-desc">Translating brand vision into scalable creative outputs. Conceptualising and directing visual projects from brief to final output.</p>
-      <div class="svc-tags"><span class="svc-tag">Art Direction</span><span class="svc-tag">Concept</span><span class="svc-tag">Strategy</span></div>
+    <div class="svc-flip rv d3">
+      <div class="svc-flip-inner">
+        <div class="svc-front"><div class="svc-num">06</div><div class="svc-icon">⌘</div><div class="svc-name">Creative Direction</div><div class="svc-front-hint">Hover to flip ↻</div></div>
+        <div class="svc-back"><div class="svc-back-title">Creative Direction</div><p class="svc-back-desc">Translating brand vision into scalable creative outputs — directing visual projects from concept brief to final deliverable.</p><div class="svc-tags"><span class="svc-tag">Art Direction</span><span class="svc-tag">Strategy</span><span class="svc-tag">Concept</span></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -505,10 +609,7 @@ footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;
 <!-- WORKS -->
 <section id="works">
   <div class="works-header rv">
-    <div>
-      <p class="s-label">Portfolio</p>
-      <h2 class="s-title">SELECTED <em>WORKS</em></h2>
-    </div>
+    <div><p class="s-label">Portfolio</p><h2 class="s-title extrude">SELECTED <em>WORKS</em></h2></div>
     <div class="wtabs">
       <button class="wtab on" onclick="fw(this,'all')">All</button>
       <button class="wtab" onclick="fw(this,'design')">Design</button>
@@ -516,62 +617,51 @@ footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;
       <button class="wtab" onclick="fw(this,'photo')">Photo</button>
     </div>
   </div>
-  <div class="works-masonry" id="wgrid">
-    <div class="wcard" data-c="photo">
-      <div class="wthumb"><div class="wthumb-inner"></div><div class="wnum">01</div><div class="woverlay"><div class="woverlay-content"><span class="wbadge">Photo</span><p class="wtitle">Fashion Portfolio Shoot</p><p class="wcat">Fashion · Modelling · Commercial</p></div></div></div>
-      <div class="winfo-bar"><div><div class="winfo-title">Fashion Portfolio Shoot</div><div class="winfo-cat">Photography</div></div><span class="winfo-arr">↗</span></div>
-    </div>
-    <div class="wcard" data-c="design">
-      <div class="wthumb"><div class="wthumb-inner"></div><div class="wnum">02</div><div class="woverlay"><div class="woverlay-content"><span class="wbadge">Design</span><p class="wtitle">Brand Identity System</p><p class="wcat">Logo · Identity · Guidelines</p></div></div></div>
-      <div class="winfo-bar"><div><div class="winfo-title">Brand Identity System</div><div class="winfo-cat">Graphic Design</div></div><span class="winfo-arr">↗</span></div>
-    </div>
-    <div class="wcard" data-c="video">
-      <div class="wthumb"><div class="wthumb-inner"></div><div class="wnum">03</div><div class="woverlay"><div class="woverlay-content"><span class="wbadge">Video</span><p class="wtitle">Promotional Reel</p><p class="wcat">Colour Grade · Sound · Motion</p></div></div></div>
-      <div class="winfo-bar"><div><div class="winfo-title">Promotional Reel</div><div class="winfo-cat">Video Editing</div></div><span class="winfo-arr">↗</span></div>
-    </div>
-    <div class="wcard" data-c="photo">
-      <div class="wthumb"><div class="wthumb-inner"></div><div class="wnum">04</div><div class="woverlay"><div class="woverlay-content"><span class="wbadge">Photo</span><p class="wtitle">Wedding Coverage</p><p class="wcat">Candid · Portrait · Story</p></div></div></div>
-      <div class="winfo-bar"><div><div class="winfo-title">Wedding Coverage</div><div class="winfo-cat">Photography</div></div><span class="winfo-arr">↗</span></div>
-    </div>
-    <div class="wcard" data-c="design">
-      <div class="wthumb"><div class="wthumb-inner"></div><div class="wnum">05</div><div class="woverlay"><div class="woverlay-content"><span class="wbadge">Design</span><p class="wtitle">Social Media Campaign</p><p class="wcat">Digital · Content · Strategy</p></div></div></div>
-      <div class="winfo-bar"><div><div class="winfo-title">Social Media Campaign</div><div class="winfo-cat">Graphic Design</div></div><span class="winfo-arr">↗</span></div>
-    </div>
-    <div class="wcard" data-c="video">
-      <div class="wthumb"><div class="wthumb-inner"></div><div class="wnum">06</div><div class="woverlay"><div class="woverlay-content"><span class="wbadge">Video</span><p class="wtitle">Tech Portal Agency Reel</p><p class="wcat">Commercial · Instagram · YouTube</p></div></div></div>
-      <div class="winfo-bar"><div><div class="winfo-title">Tech Portal Agency Reel</div><div class="winfo-cat">Video Editing</div></div><span class="winfo-arr">↗</span></div>
-    </div>
+  <div class="works-grid" id="wgrid">
+    <div class="wcard rv d1" data-c="photo"><div class="wthumb"><div class="wnum">01</div><div class="woverlay"><div class="w-overlay-content"><span class="wbadge">Photo</span><p class="w-title">Fashion Portfolio Shoot</p><p class="w-cat">Fashion · Modelling · Commercial</p></div></div></div><div class="winfo"><div><div class="wi-title">Fashion Portfolio Shoot</div><div class="wi-cat">Photography</div></div><span class="wi-arr">↗</span></div></div>
+    <div class="wcard rv d2" data-c="design"><div class="wthumb"><div class="wnum">02</div><div class="woverlay"><div class="w-overlay-content"><span class="wbadge">Design</span><p class="w-title">Brand Identity System</p><p class="w-cat">Logo · Identity · Guidelines</p></div></div></div><div class="winfo"><div><div class="wi-title">Brand Identity System</div><div class="wi-cat">Graphic Design</div></div><span class="wi-arr">↗</span></div></div>
+    <div class="wcard rv d3" data-c="video"><div class="wthumb"><div class="wnum">03</div><div class="woverlay"><div class="w-overlay-content"><span class="wbadge">Video</span><p class="w-title">Promotional Reel</p><p class="w-cat">Colour Grade · Sound · Motion</p></div></div></div><div class="winfo"><div><div class="wi-title">Promotional Reel</div><div class="wi-cat">Video Editing</div></div><span class="wi-arr">↗</span></div></div>
+    <div class="wcard rv d1" data-c="photo"><div class="wthumb"><div class="wnum">04</div><div class="woverlay"><div class="w-overlay-content"><span class="wbadge">Photo</span><p class="w-title">Wedding Coverage</p><p class="w-cat">Candid · Portrait · Story</p></div></div></div><div class="winfo"><div><div class="wi-title">Wedding Coverage</div><div class="wi-cat">Photography</div></div><span class="wi-arr">↗</span></div></div>
+    <div class="wcard rv d2" data-c="design"><div class="wthumb"><div class="wnum">05</div><div class="woverlay"><div class="w-overlay-content"><span class="wbadge">Design</span><p class="w-title">Social Media Campaign</p><p class="w-cat">Digital · Content · Strategy</p></div></div></div><div class="winfo"><div><div class="wi-title">Social Media Campaign</div><div class="wi-cat">Graphic Design</div></div><span class="wi-arr">↗</span></div></div>
+    <div class="wcard rv d3" data-c="video"><div class="wthumb"><div class="wnum">06</div><div class="woverlay"><div class="w-overlay-content"><span class="wbadge">Video</span><p class="w-title">Tech Portal Agency Reel</p><p class="w-cat">Commercial · Instagram · YouTube</p></div></div></div><div class="winfo"><div><div class="wi-title">Tech Portal Agency Reel</div><div class="wi-cat">Video Editing</div></div><span class="wi-arr">↗</span></div></div>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills-sec">
-  <div class="skills-layout">
-    <div class="rv-l">
-      <p class="s-label">My Abilities</p>
-      <h2 class="s-title" style="margin-bottom:2.5rem;">SKILLS &amp;<br/><em>EXPERTISE</em></h2>
-      <div class="sk-list" id="skList">
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Graphic Design &amp; Branding</span><span class="sk-pct">92%</span></div><div class="sk-track"><div class="sk-fill" data-p="92"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Video Editing &amp; Post-Production</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill" data-p="88"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Photography</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill" data-p="90"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Colour Grading &amp; Cinematic Editing</span><span class="sk-pct">87%</span></div><div class="sk-track"><div class="sk-fill" data-p="87"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Social Media Content Creation</span><span class="sk-pct">95%</span></div><div class="sk-track"><div class="sk-fill" data-p="95"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Motion Graphics</span><span class="sk-pct">72%</span></div><div class="sk-track"><div class="sk-fill" data-p="72"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Visual Storytelling</span><span class="sk-pct">93%</span></div><div class="sk-track"><div class="sk-fill" data-p="93"></div><div class="sk-glow-dot"></div></div></div>
-        <div class="sk-row"><div class="sk-top"><span class="sk-name">Creative Direction</span><span class="sk-pct">85%</span></div><div class="sk-track"><div class="sk-fill" data-p="85"></div><div class="sk-glow-dot"></div></div></div>
-      </div>
+  <div class="sk-left rv-l">
+    <p class="s-label">My Abilities</p>
+    <h2 class="s-title extrude" style="font-size:clamp(3rem,5vw,5.5rem);line-height:.9;margin-bottom:2.5rem;">SOFTWARE<br/><em>SKILLS</em></h2>
+    <div class="sk-list" id="skList">
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Graphic Design &amp; Branding</span><span class="sk-pct">92%</span></div><div class="sk-track"><div class="sk-fill" data-p="92"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Video Editing &amp; Post-Production</span><span class="sk-pct">88%</span></div><div class="sk-track"><div class="sk-fill" data-p="88"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Photography</span><span class="sk-pct">90%</span></div><div class="sk-track"><div class="sk-fill" data-p="90"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Colour Grading &amp; Cinematic Editing</span><span class="sk-pct">87%</span></div><div class="sk-track"><div class="sk-fill" data-p="87"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Social Media Content Creation</span><span class="sk-pct">95%</span></div><div class="sk-track"><div class="sk-fill" data-p="95"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Motion Graphics</span><span class="sk-pct">72%</span></div><div class="sk-track"><div class="sk-fill" data-p="72"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Visual Storytelling</span><span class="sk-pct">93%</span></div><div class="sk-track"><div class="sk-fill" data-p="93"></div><div class="sk-dot"></div></div></div>
+      <div class="sk-row"><div class="sk-top"><span class="sk-name">Creative Direction</span><span class="sk-pct">85%</span></div><div class="sk-track"><div class="sk-fill" data-p="85"></div><div class="sk-dot"></div></div></div>
     </div>
-    <div class="rv-r">
-      <div class="tools-section">
-        <p class="tools-label">Software &amp; Tools</p>
-        <div class="tools-list">
-          <div class="tool-item"><span class="ti-abbr">Ps</span><div><div class="ti-name">Adobe Photoshop</div><div class="ti-type">Image Editing &amp; Retouching</div></div></div>
-          <div class="tool-item"><span class="ti-abbr">Ai</span><div><div class="ti-name">Adobe Illustrator</div><div class="ti-type">Vector &amp; Branding</div></div></div>
-          <div class="tool-item"><span class="ti-abbr">Pr</span><div><div class="ti-name">Adobe Premiere Pro</div><div class="ti-type">Video Editing</div></div></div>
-          <div class="tool-item"><span class="ti-abbr">Da</span><div><div class="ti-name">DaVinci Resolve</div><div class="ti-type">Colour Grading &amp; Edit</div></div></div>
-          <div class="tool-item"><span class="ti-abbr">Lr</span><div><div class="ti-name">Adobe Lightroom</div><div class="ti-type">Photo Editing</div></div></div>
-          <div class="tool-item" style="opacity:.7;"><span class="ti-abbr" style="font-size:1.2rem;">3D</span><div><div class="ti-name">3D Animation</div><div class="ti-type">Currently Learning ✦</div></div></div>
-        </div>
+  </div>
+  <div class="sk-right">
+    <div class="sk-right-glow"></div>
+    <div class="icon-tower-wrap">
+      <div class="icon-tower" id="iconTower">
+        <div class="icon-row"><div class="icon-card ic-ps"><span class="ic-abbr">Ps</span><span class="ic-name">Photoshop</span></div><span class="icon-row-lbl">Adobe Photoshop</span></div>
+        <div class="icon-row"><div class="icon-card ic-ai"><span class="ic-abbr">Ai</span><span class="ic-name">Illustrator</span></div><span class="icon-row-lbl">Adobe Illustrator</span></div>
+        <div class="icon-row"><div class="icon-card ic-pr"><span class="ic-abbr">Pr</span><span class="ic-name">Premiere</span></div><span class="icon-row-lbl">Adobe Premiere Pro</span></div>
+        <div class="icon-row"><div class="icon-card ic-ae"><span class="ic-abbr">Ae</span><span class="ic-name">After Effects</span></div><span class="icon-row-lbl">After Effects</span></div>
+        <div class="icon-row"><div class="icon-card ic-lr"><span class="ic-abbr">Lr</span><span class="ic-name">Lightroom</span></div><span class="icon-row-lbl">Adobe Lightroom</span></div>
+        <div class="icon-row"><div class="icon-card ic-da"><span class="ic-abbr">Da</span><span class="ic-name">DaVinci</span></div><span class="icon-row-lbl">DaVinci Resolve</span></div>
+        <div class="icon-row"><div class="icon-card ic-3d"><span class="ic-abbr">3D</span><span class="ic-name">Animation ✦</span></div><span class="icon-row-lbl">3D Animation</span></div>
+        <!-- duplicate for loop -->
+        <div class="icon-row"><div class="icon-card ic-ps"><span class="ic-abbr">Ps</span><span class="ic-name">Photoshop</span></div><span class="icon-row-lbl">Adobe Photoshop</span></div>
+        <div class="icon-row"><div class="icon-card ic-ai"><span class="ic-abbr">Ai</span><span class="ic-name">Illustrator</span></div><span class="icon-row-lbl">Adobe Illustrator</span></div>
+        <div class="icon-row"><div class="icon-card ic-pr"><span class="ic-abbr">Pr</span><span class="ic-name">Premiere</span></div><span class="icon-row-lbl">Adobe Premiere Pro</span></div>
+        <div class="icon-row"><div class="icon-card ic-ae"><span class="ic-abbr">Ae</span><span class="ic-name">After Effects</span></div><span class="icon-row-lbl">After Effects</span></div>
+        <div class="icon-row"><div class="icon-card ic-lr"><span class="ic-abbr">Lr</span><span class="ic-name">Lightroom</span></div><span class="icon-row-lbl">Adobe Lightroom</span></div>
+        <div class="icon-row"><div class="icon-card ic-da"><span class="ic-abbr">Da</span><span class="ic-name">DaVinci</span></div><span class="icon-row-lbl">DaVinci Resolve</span></div>
+        <div class="icon-row"><div class="icon-card ic-3d"><span class="ic-abbr">3D</span><span class="ic-name">Animation ✦</span></div><span class="icon-row-lbl">3D Animation</span></div>
       </div>
     </div>
   </div>
@@ -582,38 +672,15 @@ footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;
   <div class="gear-layout">
     <div class="rv-l">
       <p class="s-label">Equipment</p>
-      <h2 class="s-title" style="margin-bottom:1.5rem;">CAMERA <em>GEAR</em></h2>
-      <div>
-        <span class="gear-num">8</span>
-        <span class="gear-num-label">Camera Bodies · 3 Brands</span>
-      </div>
-      <p style="font-size:.85rem;color:var(--muted);line-height:1.85;margin-top:1.5rem;">Hands-on technical exposure across professional-grade systems from the world's leading camera manufacturers — Canon, Nikon, and Sony.</p>
+      <h2 class="s-title extrude" style="margin-bottom:1.5rem;">CAMERA <em>GEAR</em></h2>
+      <div><span class="gear-num">8</span><br/><span class="gear-num-label">Camera Bodies · 3 Brands</span></div>
+      <p style="font-size:.85rem;color:var(--muted);line-height:1.85;margin-top:1.5rem;">Professional-grade systems from Canon, Nikon, and Sony — hands-on exposure across 8 bodies.</p>
     </div>
     <div class="rv-r">
       <div class="gear-brands">
-        <div class="gear-brand rv d1">
-          <div class="gb-name">CANON</div>
-          <div class="gb-cameras">
-            <div class="gb-cam">5D Mark IV</div>
-            <div class="gb-cam">80D</div>
-            <div class="gb-cam">77D</div>
-          </div>
-        </div>
-        <div class="gear-brand rv d2">
-          <div class="gb-name">NIKON</div>
-          <div class="gb-cameras">
-            <div class="gb-cam">D850</div>
-            <div class="gb-cam">D750</div>
-            <div class="gb-cam">D5600</div>
-            <div class="gb-cam">D3500</div>
-          </div>
-        </div>
-        <div class="gear-brand rv d3">
-          <div class="gb-name">SONY</div>
-          <div class="gb-cameras">
-            <div class="gb-cam">Alpha 7 III</div>
-          </div>
-        </div>
+        <div class="gear-brand rv d1"><div class="gb-name">CANON</div><div class="gb-cam">5D Mark IV</div><div class="gb-cam">80D</div><div class="gb-cam">77D</div></div>
+        <div class="gear-brand rv d2"><div class="gb-name">NIKON</div><div class="gb-cam">D850</div><div class="gb-cam">D750</div><div class="gb-cam">D5600</div><div class="gb-cam">D3500</div></div>
+        <div class="gear-brand rv d3"><div class="gb-name">SONY</div><div class="gb-cam">Alpha 7 III</div></div>
       </div>
     </div>
   </div>
@@ -621,169 +688,87 @@ footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;
 
 <!-- RESUME -->
 <section id="resume">
-  <div class="resume-bg-text" aria-hidden="true">RESUME</div>
+  <div class="resume-bg-txt" aria-hidden="true">RESUME</div>
   <div class="resume-layout">
-
-    <div class="resume-left rv-l">
+    <div class="rv-l">
       <p class="s-label">Download CV</p>
       <h2 class="s-title">GET MY<br/><span class="outline">RÉSUMÉ</span></h2>
-      <p class="resume-tagline">5+ years of visual creative experience — all in one document. Download or view my full resume to see my background, skills, and work history.</p>
-
-      <div class="resume-highlights">
-        <div class="rh-item">
-          <div class="rh-ico">◈</div>
-          <div class="rh-text"><strong>Graphic Designer</strong> · Freelance · 2021–Present</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-ico">▷</div>
-          <div class="rh-text"><strong>Video Editor</strong> · Freelance · 2023–Present</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-ico">◎</div>
-          <div class="rh-text"><strong>Photographer</strong> · Modelling Co. + Events · 2019–2023</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-ico">⚡</div>
-          <div class="rh-text"><strong>Photo, Video &amp; Design</strong> · Tech Portal Agency · 2026–Now</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-ico">🎓</div>
-          <div class="rh-text"><strong>Tools:</strong> Photoshop · Illustrator · Premiere · DaVinci · Lightroom</div>
-        </div>
-        <div class="rh-item">
-          <div class="rh-ico">📍</div>
-          <div class="rh-text"><strong>Location:</strong> Bangalore, India · Open to Remote &amp; On-site</div>
-        </div>
+      <p class="resume-tagline">5+ years of visual creative experience — all in one document. Download or view my full resume.</p>
+      <div class="rh-list">
+        <div class="rh-item"><div class="rh-ico">◈</div><div class="rh-txt"><strong>Graphic Designer</strong> · Freelance · 2021–Present</div></div>
+        <div class="rh-item"><div class="rh-ico">▷</div><div class="rh-txt"><strong>Video Editor</strong> · Freelance · 2023–Present</div></div>
+        <div class="rh-item"><div class="rh-ico">◎</div><div class="rh-txt"><strong>Photographer</strong> · Modelling Co. + Events · 2019–2023</div></div>
+        <div class="rh-item"><div class="rh-ico">⚡</div><div class="rh-txt"><strong>Photo, Video &amp; Design</strong> · Tech Portal Agency · 2026–Now</div></div>
+        <div class="rh-item"><div class="rh-ico">🎓</div><div class="rh-txt"><strong>Tools:</strong> Ps · Ai · Pr · DaVinci · Lr · After Effects</div></div>
       </div>
-
       <div class="resume-btns">
-        <a href="Nithin_Resume.pdf" download="Nithin_Yuvaraj_Resume.pdf" class="btn-download">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-          Download Resume
-        </a>
-        <a href="Nithin_Resume.pdf" target="_blank" class="btn-view">View PDF ↗</a>
+        <a href="Nithin_Resume.pdf" download="Nithin_Yuvaraj_Resume.pdf" class="btn-dl"><svg viewBox="0 0 24 24"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>Download Resume</a>
+        <a href="Nithin_Resume.pdf" target="_blank" class="btn-vw">View PDF ↗</a>
       </div>
     </div>
-
-    <div class="resume-preview-wrap rv-r">
-      <span class="preview-badge">PDF · Ready to Download</span>
-      <div class="resume-preview-card" id="resumeCard">
-        <span class="preview-corner pc-tl"></span>
-        <span class="preview-corner pc-tr"></span>
-        <span class="preview-corner pc-bl"></span>
-        <span class="preview-corner pc-br"></span>
-
-        <div class="rpc-top">
-          <div class="rpc-name">NITHIN<br/>YUVARAJ</div>
-          <div class="rpc-roles">
-            <span class="rpc-role">Photographer</span>
-            <span class="rpc-role">Video Editor</span>
-            <span class="rpc-role">Graphic Designer</span>
+    <div class="resume-card-wrap rv-r">
+      <div class="resume-card" id="resumeCard">
+        <div class="rc-corners"><span class="corner c-tl"></span><span class="corner c-tr"></span><span class="corner c-bl"></span><span class="corner c-br"></span></div>
+        <div class="rc-top"><div class="rc-name">NITHIN<br/>YUVARAJ</div><div class="rc-roles"><span class="rc-role">Photographer</span><span class="rc-role">Video Editor</span><span class="rc-role">Designer</span></div><div class="rc-contact"><span>nithinyuva449@gmail.com</span><span>+91 7619171650</span></div></div>
+        <div class="rc-body">
+          <div><div class="rc-sec-title">Core Skills</div>
+            <div class="rc-bar-row"><span class="rc-bar-label">Graphic Design</span><div class="rc-bar-track"><div class="rc-bar-fill" data-w=".92"></div></div><span class="rc-bar-pct">92%</span></div>
+            <div class="rc-bar-row"><span class="rc-bar-label">Video Editing</span><div class="rc-bar-track"><div class="rc-bar-fill" data-w=".88"></div></div><span class="rc-bar-pct">88%</span></div>
+            <div class="rc-bar-row"><span class="rc-bar-label">Photography</span><div class="rc-bar-track"><div class="rc-bar-fill" data-w=".90"></div></div><span class="rc-bar-pct">90%</span></div>
+            <div class="rc-bar-row"><span class="rc-bar-label">Social Content</span><div class="rc-bar-track"><div class="rc-bar-fill" data-w=".95"></div></div><span class="rc-bar-pct">95%</span></div>
           </div>
-          <div style="margin-top:1rem;display:flex;gap:1.5rem;">
-            <div style="font-size:.65rem;color:var(--muted);">nithinyuva449@gmail.com</div>
-            <div style="font-size:.65rem;color:var(--muted);">+91 7619171650</div>
+          <div><div class="rc-sec-title">Experience</div>
+            <div class="rc-exp-item"><div class="rc-exp-role">Tech Portal Agency</div><div class="rc-exp-date">2026 – Present</div></div>
+            <div class="rc-exp-item"><div class="rc-exp-role">Freelance Video Editor</div><div class="rc-exp-date">2023 – Present</div></div>
+            <div class="rc-exp-item"><div class="rc-exp-role">Freelance Graphic Designer</div><div class="rc-exp-date">2021 – Present</div></div>
+            <div class="rc-exp-item"><div class="rc-exp-role">Freelance Photographer</div><div class="rc-exp-date">2020 – 2023</div></div>
           </div>
+          <div><div class="rc-sec-title">Tools</div><div class="rc-tools"><span class="rc-tool">Photoshop</span><span class="rc-tool">Illustrator</span><span class="rc-tool">Premiere</span><span class="rc-tool">DaVinci</span><span class="rc-tool">Lightroom</span></div></div>
         </div>
-
-        <div class="rpc-body">
-          <div>
-            <div class="rpc-section-title">Core Skills</div>
-            <div style="display:flex;flex-direction:column;gap:.5rem;">
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
-                <span style="font-size:.65rem;color:var(--off);white-space:nowrap;">Graphic Design</span>
-                <div class="rpc-line" style="flex:1;height:4px;"><div data-w="92"></div></div>
-                <span style="font-size:.62rem;color:var(--sky);">92%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
-                <span style="font-size:.65rem;color:var(--off);white-space:nowrap;">Video Editing</span>
-                <div class="rpc-line" style="flex:1;height:4px;"><div data-w="88"></div></div>
-                <span style="font-size:.62rem;color:var(--sky);">88%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
-                <span style="font-size:.65rem;color:var(--off);white-space:nowrap;">Photography</span>
-                <div class="rpc-line" style="flex:1;height:4px;"><div data-w="90"></div></div>
-                <span style="font-size:.62rem;color:var(--sky);">90%</span>
-              </div>
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:.75rem;">
-                <span style="font-size:.65rem;color:var(--off);white-space:nowrap;">Social Content</span>
-                <div class="rpc-line" style="flex:1;height:4px;"><div data-w="95"></div></div>
-                <span style="font-size:.62rem;color:var(--sky);">95%</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="rpc-section-title">Experience</div>
-            <div style="display:flex;flex-direction:column;gap:.6rem;">
-              <div><div style="font-size:.68rem;font-weight:600;color:var(--white);">Tech Portal Agency</div><div style="font-size:.6rem;color:var(--sky);">2026 – Present</div></div>
-              <div><div style="font-size:.68rem;font-weight:600;color:var(--white);">Freelance Video Editor</div><div style="font-size:.6rem;color:var(--sky);">2023 – Present</div></div>
-              <div><div style="font-size:.68rem;font-weight:600;color:var(--white);">Freelance Graphic Designer</div><div style="font-size:.6rem;color:var(--sky);">2021 – Present</div></div>
-              <div><div style="font-size:.68rem;font-weight:600;color:var(--white);">Freelance Photographer</div><div style="font-size:.6rem;color:var(--sky);">2020 – 2023</div></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="rpc-section-title">Tools</div>
-            <div style="display:flex;gap:.4rem;flex-wrap:wrap;">
-              <span style="font-size:.6rem;border:1px solid var(--border2);padding:.15rem .5rem;color:var(--sky2);">Photoshop</span>
-              <span style="font-size:.6rem;border:1px solid var(--border2);padding:.15rem .5rem;color:var(--sky2);">Illustrator</span>
-              <span style="font-size:.6rem;border:1px solid var(--border2);padding:.15rem .5rem;color:var(--sky2);">Premiere</span>
-              <span style="font-size:.6rem;border:1px solid var(--border2);padding:.15rem .5rem;color:var(--sky2);">DaVinci</span>
-              <span style="font-size:.6rem;border:1px solid var(--border2);padding:.15rem .5rem;color:var(--sky2);">Lightroom</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="rpc-scan-overlay"></div>
-        <div class="rpc-float">
-          <a href="Nithin_Resume.pdf" download="Nithin_Yuvaraj_Resume.pdf" class="rpc-float-inner">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>
-            Download PDF
-          </a>
-        </div>
+        <div class="rc-fade"></div>
+        <div class="rc-dl-btn"><a href="Nithin_Resume.pdf" download class="rc-dl-inner"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16l-5-5h3V4h4v7h3l-5 5zm-7 4h14v-2H5v2z"/></svg>Download PDF</a></div>
       </div>
     </div>
-
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="contact-bg-text" aria-hidden="true">CONTACT</div>
-  <div class="contact-layout">
+  <div class="ct-bg-txt" aria-hidden="true">CONTACT</div>
+  <div class="ct-layout">
     <div class="ct-left rv-l">
       <p class="s-label">Get in Touch</p>
-      <h2 class="s-title ct-title">LET'S<br/>CREATE<br/><span class="outline">TOGETHER</span></h2>
-      <p class="ct-sub">Open for freelance projects, brand collaborations, and creative partnerships. Let's make something unforgettable.</p>
-      <div class="ct-info-list">
-        <div class="cil-item"><div class="cil-icon">✉</div><div><div class="cil-label">Email</div><div class="cil-val"><a href="mailto:nithinyuva449@gmail.com">nithinyuva449@gmail.com</a></div></div></div>
-        <div class="cil-item"><div class="cil-icon">☏</div><div><div class="cil-label">Phone</div><div class="cil-val"><a href="tel:+917619171650">+91 7619171650</a></div></div></div>
-        <div class="cil-item"><div class="cil-icon">⊕</div><div><div class="cil-label">Location</div><div class="cil-val">8th Mile, Nagasandra, Bangalore 560073</div></div></div>
-        <div class="cil-item"><div class="cil-icon">●</div><div><div class="cil-label">Status</div><div class="cil-val" style="color:#22c55e;font-weight:600;">Open to Work</div></div></div>
+      <h2 class="s-title">LET'S<br/>CREATE<br/><span class="outline">TOGETHER</span></h2>
+      <p class="ct-sub">Open for freelance projects, brand collaborations, and creative partnerships.</p>
+      <div class="ct-info">
+        <div class="ci"><div class="ci-ico">✉</div><div><div class="ci-label">Email</div><div class="ci-val"><a href="mailto:nithinyuva449@gmail.com">nithinyuva449@gmail.com</a></div></div></div>
+        <div class="ci"><div class="ci-ico">☏</div><div><div class="ci-label">Phone</div><div class="ci-val"><a href="tel:+917619171650">+91 7619171650</a></div></div></div>
+        <div class="ci"><div class="ci-ico">⊕</div><div><div class="ci-label">Location</div><div class="ci-val">8th Mile, Nagasandra, Bangalore 560073</div></div></div>
+        <div class="ci"><div class="ci-ico">●</div><div><div class="ci-label">Status</div><div class="ci-val" style="color:#22c55e;font-weight:600;">Open to Work ✓</div></div></div>
       </div>
     </div>
-    <form class="ct-form rv-r" onsubmit="doSubmit(event)">
-      <div class="frow">
-        <div class="fg"><label class="fl">Your Name</label><input type="text" class="fi" placeholder="John Smith" required/></div>
-        <div class="fg"><label class="fl">Phone</label><input type="tel" class="fi" placeholder="+91 00000 00000"/></div>
-      </div>
-      <div class="fg"><label class="fl">Email Address</label><input type="email" class="fi" placeholder="hello@example.com" required/></div>
-      <div class="fg">
-        <label class="fl">Service</label>
-        <select class="fsel fi">
-          <option value="">Select a service...</option>
-          <option>Graphic Design &amp; Branding</option>
-          <option>Video Editing &amp; Post-Production</option>
-          <option>Photography</option>
-          <option>Social Media Content</option>
-          <option>Motion Graphics</option>
-          <option>Creative Direction</option>
-        </select>
-      </div>
-      <div class="fg"><label class="fl">Message</label><textarea class="ft" placeholder="Tell me about your project, vision, and timeline..."></textarea></div>
-      <button type="submit" class="fsub">Send Message →</button>
-    </form>
+    <div class="ct-form-wrap rv-r">
+      <form class="ct-form" onsubmit="doSubmit(event)">
+        <div class="frow">
+          <div class="fg"><label class="fl">Your Name</label><input type="text" class="fi" placeholder="John Smith" required/></div>
+          <div class="fg"><label class="fl">Phone</label><input type="tel" class="fi" placeholder="+91 00000 00000"/></div>
+        </div>
+        <div class="fg"><label class="fl">Email</label><input type="email" class="fi" placeholder="hello@example.com" required/></div>
+        <div class="fg"><label class="fl">Service</label>
+          <select class="fsel fi">
+            <option value="">Select a service...</option>
+            <option>Graphic Design &amp; Branding</option>
+            <option>Video Editing &amp; Post-Production</option>
+            <option>Photography</option>
+            <option>Social Media Content</option>
+            <option>Motion Graphics</option>
+            <option>Creative Direction</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Message</label><textarea class="ft" placeholder="Tell me about your project, vision &amp; timeline..."></textarea></div>
+        <button type="submit" class="f-submit">Send Message →</button>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -792,63 +777,88 @@ footer{background:var(--bg);border-top:1px solid var(--border2);padding:2rem 4%;
   <a href="#hero" class="foot-logo">NITHIN YUVARAJ</a>
   <span class="foot-copy">© 2026 Nithin Yuvaraj — All Rights Reserved</span>
   <div class="foot-links">
-    <a href="#about">About</a>
-    <a href="#works">Works</a>
-    <a href="#resume">Resume</a>
-    <a href="#gear">Gear</a>
-    <a href="#contact">Contact</a>
+    <a href="#about">About</a><a href="#works">Works</a>
+    <a href="#resume">Resume</a><a href="#contact">Contact</a>
   </div>
 </footer>
 
 <script>
+/* ════════════════════════════════
+   FULL 3D ANIMATION ENGINE
+════════════════════════════════ */
+
 /* ── PRELOADER ── */
-const fill=document.getElementById('preFill'),pre=document.getElementById('preloader');
+const preBar=document.getElementById('preBar'),preEl=document.getElementById('pre');
 let pct=0;
-const pi=setInterval(()=>{
-  pct=Math.min(pct+Math.random()*8+2,100);
-  fill.style.width=pct+'%';
-  if(pct>=100){clearInterval(pi);setTimeout(()=>{pre.classList.add('done');document.body.style.overflow='auto';},300);}
-},60);
 document.body.style.overflow='hidden';
+const pi=setInterval(()=>{
+  pct=Math.min(pct+Math.random()*7+2,100);
+  preBar.style.width=pct+'%';
+  if(pct>=100){clearInterval(pi);setTimeout(()=>{preEl.classList.add('gone');document.body.style.overflow='auto';boot();},400);}
+},65);
 
-/* ── CURSOR ── */
+/* ── SCROLL PROGRESS ── */
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{
+  prog.style.width=((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100)+'%';
+});
+
+/* ── CURSOR + TRAIL ── */
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
-let cx=0,cy=0;
+const trail=[];for(let i=0;i<10;i++){const d=document.createElement('div');d.style.cssText=`position:fixed;width:${5-i*.4}px;height:${5-i*.4}px;background:rgba(56,189,248,${.55-i*.05});border-radius:50%;pointer-events:none;z-index:9995;transform:translate(-50%,-50%);`;document.body.appendChild(d);trail.push({el:d,x:0,y:0});}
+let mx=0,my=0,trailPos=Array(10).fill({x:0,y:0}).map(()=>({x:0,y:0}));
 document.addEventListener('mousemove',e=>{
-  cx=e.clientX;cy=e.clientY;
-  cur.style.left=cx+'px';cur.style.top=cy+'px';
-  setTimeout(()=>{ring.style.left=cx+'px';ring.style.top=cy+'px';},100);
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+  setTimeout(()=>{ring.style.left=mx+'px';ring.style.top=my+'px';},110);
 });
-document.querySelectorAll('a,button,.svc-card,.wcard,.tool-item,.gear-brand').forEach(el=>{
-  el.addEventListener('mouseenter',()=>document.body.classList.add('hovered'));
-  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovered'));
+(function tLoop(){
+  trailPos[0]={x:mx,y:my};
+  for(let i=1;i<10;i++){trailPos[i].x+=(trailPos[i-1].x-trailPos[i].x)*.35;trailPos[i].y+=(trailPos[i-1].y-trailPos[i].y)*.35;trail[i].el.style.left=trailPos[i].x+'px';trail[i].el.style.top=trailPos[i].y+'px';}
+  requestAnimationFrame(tLoop);
+})();
+document.querySelectorAll('a,button,.svc-flip,.wcard,.gear-brand,.stat-card-3d,.icon-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{document.body.classList.add('hov');cur.style.background='transparent';cur.style.border='2px solid #38bdf8';});
+  el.addEventListener('mouseleave',()=>{document.body.classList.remove('hov');cur.style.background='#38bdf8';cur.style.border='none';});
 });
 
-/* ── HERO CANVAS PARTICLES ── */
-const hc=document.getElementById('heroCanvas');
-const ctx=hc.getContext('2d');
+/* ── HERO 3D CANVAS — mouse-reactive particles ── */
+const hc=document.getElementById('hero-canvas');
+const hctx=hc.getContext('2d');
 let W,H,pts=[];
-function resize(){W=hc.width=window.innerWidth;H=hc.height=window.innerHeight;initPts();}
-function initPts(){
-  pts=[];
-  const n=Math.floor((W*H)/15000);
-  for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.8+.2,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,a:Math.random()*.5+.1});
-}
-resize();window.addEventListener('resize',resize);
-(function draw(){
-  ctx.clearRect(0,0,W,H);
+let hmx=window.innerWidth/2,hmy=window.innerHeight/2;
+document.addEventListener('mousemove',e=>{hmx=e.clientX;hmy=e.clientY;});
+function resizeHC(){W=hc.width=window.innerWidth;H=hc.height=window.innerHeight;makePts();}
+function makePts(){pts=[];const n=Math.floor(W*H/8000);for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.9+.2,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,a:Math.random()*.5+.1});}
+resizeHC();window.addEventListener('resize',resizeHC);
+(function drawHC(){
+  hctx.clearRect(0,0,W,H);
   pts.forEach(p=>{
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(56,189,248,${p.a})`;ctx.fill();
-    p.x+=p.vx;p.y+=p.vy;
+    const dx=p.x-hmx,dy=p.y-hmy,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<140){const f=(140-d)/140*.7;p.vx+=dx/d*f;p.vy+=dy/d*f;}
+    p.vx*=.97;p.vy*=.97;p.x+=p.vx;p.y+=p.vy;
     if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+    hctx.beginPath();hctx.arc(p.x,p.y,p.r,0,Math.PI*2);hctx.fillStyle=`rgba(56,189,248,${p.a})`;hctx.fill();
   });
   for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
     const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-    if(d<100){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(56,189,248,${.1*(1-d/100)})`;ctx.lineWidth=.4;ctx.stroke();}
+    if(d<120){hctx.beginPath();hctx.moveTo(pts[i].x,pts[i].y);hctx.lineTo(pts[j].x,pts[j].y);hctx.strokeStyle=`rgba(56,189,248,${.12*(1-d/120)})`;hctx.lineWidth=.4;hctx.stroke();}
   }
-  requestAnimationFrame(draw);
+  requestAnimationFrame(drawHC);
 })();
+
+/* ── HERO MOUSE PARALLAX (multi-layer 3D) ── */
+document.addEventListener('mousemove',e=>{
+  const rx=(e.clientX/window.innerWidth-.5)*24;
+  const ry=(e.clientY/window.innerHeight-.5)*16;
+  const heroName=document.getElementById('heroName');
+  if(heroName)heroName.style.transform=`perspective(800px) rotateX(${-ry*.3}deg) rotateY(${rx*.2}deg) translateZ(20px)`;
+  const rp=document.querySelector('.hero-right-panel');
+  if(rp)rp.style.transform=`perspective(800px) rotateX(${ry*.2}deg) rotateY(${-rx*.25}deg)`;
+  document.querySelectorAll('.hs-ring,.hs-ring2,.hs-ring3').forEach((r,i)=>{
+    r.style.transform=`translate(calc(-50% + ${rx*(i+1)*.5}px),calc(-50% + ${ry*(i+1)*.4}px)) rotateX(60deg)`;
+  });
+});
 
 /* ── TICKER ── */
 const items=['Graphic Design','Video Editing','Photography','DaVinci Resolve','Colour Grading','Brand Identity','Motion Graphics','Visual Storytelling','Social Content','Creative Direction','Adobe Suite','Canon · Nikon · Sony'];
@@ -856,7 +866,7 @@ const tt=document.getElementById('tickerTrack');
 let th='';items.forEach(i=>th+=`<span class="ticker-item">${i}</span><span class="ticker-dot">✦</span>`);
 tt.innerHTML=th+th;
 
-/* ── NAV SCROLL ── */
+/* ── NAV ── */
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{
   nav.classList.toggle('compact',window.scrollY>60);
@@ -867,83 +877,206 @@ window.addEventListener('scroll',()=>{
   });
 });
 
-/* ── REVEAL ── */
-const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');ro.unobserve(x.target);}});},{threshold:.07});
-document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>ro.observe(el));
+function boot(){
+  /* REVEAL on scroll */
+  const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');ro.unobserve(x.target);}});},{threshold:.07});
+  document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>ro.observe(el));
 
-/* ── SKILL BARS ── */
-const so=new IntersectionObserver(e=>{
-  e.forEach(x=>{
-    if(x.isIntersecting){
+  /* TEXT SCRAMBLE */
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%01234';
+  function scramble(el){
+    const orig=el.innerText;let it=0;
+    const iv=setInterval(()=>{
+      el.innerText=orig.split('').map((c,i)=>c===' '?' ':i<it?orig[i]:chars[Math.floor(Math.random()*chars.length)]).join('');
+      if(it>=orig.length)clearInterval(iv);it+=.5;
+    },28);
+  }
+  const scrObs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){scramble(x.target);scrObs.unobserve(x.target);}});},{threshold:.5});
+  document.querySelectorAll('.s-title').forEach(el=>scrObs.observe(el));
+
+  /* 3D TILT — works, stat cards, gear */
+  function tilt3d(sel,depth=14){
+    document.querySelectorAll(sel).forEach(card=>{
+      card.addEventListener('mousemove',e=>{
+        const r=card.getBoundingClientRect();
+        const x=((e.clientX-r.left)/r.width-.5)*depth;
+        const y=-((e.clientY-r.top)/r.height-.5)*depth;
+        const dist=Math.sqrt(x*x+y*y);
+        card.style.transform=`perspective(700px) rotateY(${x}deg) rotateX(${y}deg) scale(1.03) translateZ(${dist*.5}px)`;
+        card.style.boxShadow=`${-x*.5}px ${y*.5}px 40px rgba(56,189,248,.15)`;
+      });
+      card.addEventListener('mouseleave',()=>{card.style.transform='';card.style.boxShadow='';});
+    });
+  }
+  tilt3d('.wcard',10);tilt3d('.chip',8);tilt3d('.about-quote',5);
+
+  /* RIPPLE on all buttons */
+  document.querySelectorAll('.btn-sky,.btn-dl,.f-submit,.nav-cta,.rc-dl-inner').forEach(btn=>{
+    btn.style.position='relative';btn.style.overflow='hidden';
+    btn.addEventListener('click',e=>{
+      const r=btn.getBoundingClientRect(),size=Math.max(r.width,r.height)*2;
+      const rip=document.createElement('span');
+      rip.style.cssText=`position:absolute;width:${size}px;height:${size}px;border-radius:50%;background:rgba(255,255,255,.2);transform:scale(0);left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px;animation:ripple-anim .7s ease-out forwards;pointer-events:none;`;
+      btn.appendChild(rip);setTimeout(()=>rip.remove(),700);
+    });
+  });
+
+  /* MAGNETIC BUTTONS */
+  document.querySelectorAll('.btn-sky,.btn-ghost,.f-submit,.nav-cta,.btn-dl,.btn-vw').forEach(el=>{
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      const x=(e.clientX-r.left-r.width/2)*.22;
+      const y=(e.clientY-r.top-r.height/2)*.22;
+      el.style.transform=`translate(${x}px,${y}px) perspective(400px) rotateX(${-y*.2}deg) rotateY(${x*.2}deg)`;
+    });
+    el.addEventListener('mouseleave',()=>el.style.transform='');
+  });
+
+  /* 3D HOVER SPOTLIGHT on service back */
+  document.querySelectorAll('.svc-back').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      card.style.background=`radial-gradient(circle at ${e.clientX-r.left}px ${e.clientY-r.top}px,rgba(56,189,248,.1),transparent 55%),linear-gradient(135deg,var(--bg3),rgba(56,189,248,.08))`;
+    });
+    card.addEventListener('mouseleave',()=>card.style.background='');
+  });
+
+  /* FLOATING ORBS */
+  ['#about','#services','#contact'].forEach(id=>{
+    const sec=document.querySelector(id);if(!sec)return;
+    for(let i=0;i<4;i++){
+      const orb=document.createElement('div');const sz=60+Math.random()*140;
+      orb.style.cssText=`position:absolute;width:${sz}px;height:${sz}px;border-radius:50%;background:radial-gradient(circle,rgba(56,189,248,.05),transparent);pointer-events:none;left:${Math.random()*90}%;top:${Math.random()*90}%;animation:orb-float ${7+Math.random()*7}s ease-in-out infinite ${Math.random()*4}s;z-index:0;`;
+      sec.style.position='relative';sec.appendChild(orb);
+    }
+  });
+
+  /* SKILL BARS */
+  const skObs=new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting){
       x.target.querySelectorAll('.sk-fill').forEach((f,i)=>{
-        setTimeout(()=>{f.style.width=f.dataset.p+'%';f.nextElementSibling.style.opacity='1';f.nextElementSibling.style.left='calc('+f.dataset.p+'% - 4px)';},i*120);
-      });
-      so.unobserve(x.target);
-    }
-  });
-},{threshold:.2});
-const ss=document.getElementById('skList');if(ss)so.observe(ss);
+        setTimeout(()=>{f.style.width=f.dataset.p+'%';const dot=f.nextElementSibling;if(dot){dot.style.opacity='1';dot.style.left='calc('+f.dataset.p+'% - 4px)';}},i*130);
+      });skObs.unobserve(x.target);
+    }});
+  },{threshold:.2});
+  const sk=document.getElementById('skList');if(sk)skObs.observe(sk);
 
-/* ── COUNTER ── */
-const co=new IntersectionObserver(e=>{
-  e.forEach(x=>{
-    if(x.isIntersecting){
-      x.target.querySelectorAll('.counter').forEach(el=>{
-        const t=+el.dataset.t;let c=0;
-        const ti=setInterval(()=>{c=Math.min(c+Math.ceil(t/60),t);el.textContent=c;if(c>=t)clearInterval(ti);},20);
+  /* RESUME CARD BARS */
+  const rcObs=new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting){
+      x.target.querySelectorAll('.rc-bar-fill').forEach((f,i)=>{
+        setTimeout(()=>{f.style.transition=`transform 1.2s ${i*.15}s cubic-bezier(.4,0,.2,1)`;f.style.transform=`scaleX(${f.dataset.w})`;},100);
+      });rcObs.unobserve(x.target);
+    }});
+  },{threshold:.3});
+  const rc=document.getElementById('resumeCard');if(rc)rcObs.observe(rc);
+
+  /* RESUME CARD — 3D mouse tilt */
+  if(rc){
+    const wrap=rc.parentElement;
+    wrap.addEventListener('mousemove',e=>{
+      const r=wrap.getBoundingClientRect();
+      const x=((e.clientX-r.left)/r.width-.5)*20;
+      const y=-((e.clientY-r.top)/r.height-.5)*20;
+      rc.style.transform=`rotateY(${x}deg) rotateX(${y}deg) translateZ(20px)`;
+      rc.style.boxShadow=`${-x*1.5}px ${-y*1.5}px 60px rgba(56,189,248,.2)`;
+    });
+    wrap.addEventListener('mouseleave',()=>{rc.style.transform='rotateY(-8deg) rotateX(4deg)';rc.style.boxShadow='20px 20px 60px rgba(0,0,0,.5)';});
+  }
+
+  /* ICON TOWER */
+  const tower=document.getElementById('iconTower');
+  if(tower){
+    const tw=tower.parentElement;
+    tw.addEventListener('mouseenter',()=>tower.style.animationPlayState='paused');
+    tw.addEventListener('mouseleave',()=>tower.style.animationPlayState='running');
+    const skRight=document.querySelector('.sk-right');
+    if(skRight){
+      skRight.addEventListener('mousemove',e=>{
+        const r=skRight.getBoundingClientRect();
+        const x=((e.clientX-r.left)/r.width-.5)*16;
+        const y=((e.clientY-r.top)/r.height-.5)*10;
+        tower.style.transform=`perspective(800px) rotateX(${-y}deg) rotateY(${x}deg)`;
       });
-      co.unobserve(x.target);
+      skRight.addEventListener('mouseleave',()=>tower.style.transform='');
     }
+  }
+
+  /* COUNTER */
+  const coObs=new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting){
+      x.target.querySelectorAll('.counter').forEach(el=>{
+        const t=+el.dataset.t;let s=null;
+        function step(ts){if(!s)s=ts;const p=Math.min((ts-s)/1500,1),ease=1-Math.pow(1-p,4);el.textContent=Math.floor(ease*t);if(p<1)requestAnimationFrame(step);else el.textContent=t;}
+        requestAnimationFrame(step);
+      });coObs.unobserve(x.target);
+    }});
+  },{threshold:.3});
+  document.querySelectorAll('#about').forEach(el=>coObs.observe(el));
+
+  /* STAGGER children */
+  const stagObs=new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting){
+      Array.from(x.target.children).forEach((c,i)=>{
+        c.style.opacity='0';c.style.transform='translateY(20px) rotateX(-10deg)';
+        c.style.transition=`opacity .6s ${i*.08}s,transform .6s ${i*.08}s`;
+        setTimeout(()=>{c.style.opacity='1';c.style.transform='translateY(0) rotateX(0)';},50);
+      });stagObs.unobserve(x.target);
+    }});
+  },{threshold:.15});
+  document.querySelectorAll('.ct-info,.about-chips,.rh-list,.gear-brands').forEach(el=>stagObs.observe(el));
+
+  /* TYPEWRITER */
+  const roles=['Graphic Designer','Video Editor','Photographer','Creative Director','Motion Artist'];
+  let ri=0,ci=0,del=false;
+  const tw2=document.getElementById('typewriter');
+  if(tw2){
+    function type(){
+      const w=roles[ri];
+      if(!del){tw2.textContent=w.slice(0,++ci);if(ci===w.length){setTimeout(()=>{del=true;type();},1800);return;}}
+      else{tw2.textContent=w.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%roles.length;}}
+      setTimeout(type,del?55:90);
+    }
+    type();
+  }
+
+  /* SPLIT LETTER hover on hero name */
+  document.querySelectorAll('.hn-word').forEach(word=>{
+    const txt=word.textContent;
+    word.innerHTML=txt.split('').map((c,i)=>`<span style="display:inline-block;transition:transform .5s ${i*.03}s cubic-bezier(.16,1,.3,1)">${c}</span>`).join('');
+    word.addEventListener('mouseenter',()=>{
+      word.querySelectorAll('span').forEach((s,i)=>{
+        s.style.transform=`translateY(-${6+Math.random()*10}px) rotateZ(${(Math.random()-.5)*8}deg) translateZ(${Math.random()*20}px)`;
+        setTimeout(()=>s.style.transform='',350+i*25);
+      });
+    });
   });
-},{threshold:.3});
-document.querySelectorAll('#about').forEach(el=>co.observe(el));
+
+  console.log('%c NITHIN YUVARAJ · 3D PORTFOLIO ','background:#38bdf8;color:#030810;font-size:1.1rem;font-weight:bold;padding:.6rem 1.2rem;border-radius:4px;');
+}
 
 /* ── WORKS FILTER ── */
 function fw(btn,cat){
   document.querySelectorAll('.wtab').forEach(t=>t.classList.remove('on'));btn.classList.add('on');
-  document.querySelectorAll('.wcard').forEach(c=>{
+  document.querySelectorAll('.wcard').forEach((c,i)=>{
     const show=cat==='all'||c.dataset.c===cat;
-    c.style.transition='opacity .4s,transform .4s';
-    if(show){c.classList.remove('hidden');setTimeout(()=>{c.style.opacity='1';c.style.transform='scale(1)';},10);}
-    else{c.style.opacity='0';c.style.transform='scale(.95)';setTimeout(()=>c.classList.add('hidden'),400);}
+    c.style.transition=`opacity .4s ${i*.05}s,transform .4s ${i*.05}s`;
+    if(show){c.style.display='';setTimeout(()=>{c.style.opacity='1';c.style.transform='';},30);}
+    else{c.style.opacity='0';c.style.transform='scale(.9) rotateX(-10deg)';setTimeout(()=>{if(cat!=='all'&&c.dataset.c!==cat)c.style.display='none';},450);}
   });
 }
 
 /* ── FORM ── */
 function doSubmit(e){
-  e.preventDefault();const b=e.target.querySelector('.fsub');
-  b.textContent='Message Sent ✓';b.style.background='#22c55e';
+  e.preventDefault();const b=e.target.querySelector('.f-submit');
+  b.textContent='Sent! ✓';b.style.background='#22c55e';
+  for(let i=0;i<24;i++){
+    const p=document.createElement('div');
+    p.style.cssText=`position:fixed;width:7px;height:7px;background:${['#38bdf8','#7dd3fc','#22c55e','#fff'][i%4]};border-radius:50%;left:${b.getBoundingClientRect().left+b.offsetWidth/2}px;top:${b.getBoundingClientRect().top}px;pointer-events:none;z-index:9999;--dx:${(Math.random()-.5)*220}px;--dy:${-60-Math.random()*140}px;animation:confetti-fly ${.7+Math.random()*.8}s ease-out forwards;`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),1700);
+  }
   setTimeout(()=>{b.textContent='Send Message →';b.style.background='';e.target.reset();},3500);
 }
-
-/* ── RESUME PREVIEW CARD BARS ── */
-const resumeObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.rpc-line div[data-w]').forEach((bar,i)=>{
-        const parent=bar.parentElement;
-        // Style the parent as the track
-        parent.style.position='relative';parent.style.background='var(--border2)';parent.style.borderRadius='2px';parent.style.overflow='hidden';
-        // Style bar as fill
-        bar.style.cssText=`position:absolute;inset:0;background:linear-gradient(90deg,var(--sky-deep),var(--sky));transform:scaleX(0);transform-origin:left;transition:transform ${1+i*.15}s cubic-bezier(.4,0,.2,1) ${i*.12}s;border-radius:2px;`;
-        setTimeout(()=>bar.style.transform='scaleX('+(+bar.dataset.w/100)+')',50);
-      });
-      resumeObs.unobserve(e.target);
-    }
-  });
-},{threshold:.3});
-const rc=document.getElementById('resumeCard');if(rc)resumeObs.observe(rc);
-
-/* ── MAGNETIC BUTTONS ── */
-document.querySelectorAll('.btn-main,.btn-alt,.fsub,.nav-hire').forEach(el=>{
-  el.addEventListener('mousemove',e=>{
-    const r=el.getBoundingClientRect();
-    const x=(e.clientX-r.left-r.width/2)*.2;
-    const y=(e.clientY-r.top-r.height/2)*.2;
-    el.style.transform=`translate(${x}px,${y}px)`;
-  });
-  el.addEventListener('mouseleave',()=>el.style.transform='');
-});
 </script>
 </body>
 </html>
